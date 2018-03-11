@@ -4,13 +4,20 @@ interface Point {
   y: number;
 }
 
+type DLLayout = 'vertical' | 'horizontal' | 'grid';
+
 export default class DLLogic {
 
   private draggedId: number = -1;
   private hoveredId: number = -1;
 
+  private draggedInitialOffset: Point = { x: 0, y: 0 };
+
   private offset: Point = { x: 0, y: 0 };
 
+  getMode(): DLLayout {
+    return this.mode;
+  }
   getDraggedId(): number {
     return this.draggedId;
   }
@@ -23,9 +30,22 @@ export default class DLLogic {
     return this.offset;
   }
 
-  constructor(private onChange: (id: number, target: number) => void) { }
+  getDraggedInitialOffset(): Point {
+    return this.draggedInitialOffset;
+  }
 
-  handleDragBegin(id: number) {
+  getThreshold(): number {
+    return this.threshold;
+  }
+
+  constructor(
+    private mode: DLLayout,
+    private threshold: number,
+    private onChange: (id: number, target: number) => void
+  ) { }
+
+  handleDragBegin(id: number, initialOffset: Point) {
+    this.draggedInitialOffset = initialOffset;
     this.draggedId = id;
     this.onChange(-1, -1);
   }
