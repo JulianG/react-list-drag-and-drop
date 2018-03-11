@@ -1,0 +1,42 @@
+body {
+  margin: 0px;
+  padding: 20px;
+  font-family: sans-serif;
+  background-color: #cccccc;
+}
+
+.example {
+  border-left: 1px solid #999999;
+  border-bottom: 1px solid #eeeeee;
+  border-right: 1px solid #eeeeee;
+  border-top: 1px solid #999999;
+  border-radius: 10px;
+  margin: 0px;
+  padding: 20px;
+}
+
+.item {
+  font-family: sans-serif;
+  border-top: 1px solid #ffffff;
+  background-color: #eeeeee;
+  border-bottom: 1px solid #999999;
+  border-radius: 6px;
+  margin-bottom: 4px;
+  padding: 10px;
+  padding-left: 8px;
+  opacity: 1;
+}
+
+.dragged .item {
+  opacity: 0.25;
+  border-top: 1px solid #999999;
+  border-bottom: 1px solid #ffffff;
+}
+
+.floating .item {
+  background-color: #ffffff;
+}
+
+.dl-item.floating {
+  /* width: 100%; */
+}
