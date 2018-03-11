@@ -6,6 +6,7 @@ import './example.css';
 interface Item {
   id: number;
   title: string;
+  img: string;
 }
 
 interface State {
@@ -18,18 +19,13 @@ export default class DraggableListExample extends React.Component<{}, State> {
 
     this.state = {
       items: [
-        { id: 0, title: 'Cavendish banana' },
-        { id: 1, title: 'Lacatan banana\n2nd line\n3rd line\n4th line\n5th line\n6th line\n7th line\n8th line' },
-        { id: 2, title: 'Lady Finger banana\n2nd line' },
-        { id: 3, title: 'Pisang jari buaya' },
-        { id: 4, title: 'Señorita banana\n2nd line' },
-        { id: 5, title: 'Sinwobogi banana' },
-        { id: 6, title: 'Cavendish banana\n2nd line\n3rd line' },
-        { id: 7, title: 'Lacatan banana' },
-        { id: 8, title: 'Lady Finger banana\n2nd line' },
-        { id: 9, title: 'Pisang jari buaya' },
-        { id: 10, title: 'Señorita banana\n2nd line\n3rd line' },
-        { id: 11, title: 'Sinwobogi banana' }
+        { id: 0, title: 'Cavendish banana', img: 'https://www.placehold.it/300x25/333333/ffffff' },
+        { id: 1, title: 'Lacatan banana', img: 'https://www.placehold.it/300x50/333333/ffffff' },
+        { id: 2, title: 'Lady Finger banana', img: 'https://www.placehold.it/300x100/333333/ffffff' },
+        { id: 3, title: 'Pisang jari buaya', img: 'https://www.placehold.it/300x150/333333/ffffff' },
+        { id: 4, title: 'Señorita banana', img: 'https://www.placehold.it/300x200/333333/ffffff' },
+        { id: 5, title: 'Sinwobogi banana', img: 'https://www.placehold.it/300x250/333333/ffffff' },
+        { id: 6, title: 'Cavendish banana', img: 'https://www.placehold.it/300x300/333333/ffffff' }
       ]
     };
 
@@ -48,7 +44,8 @@ export default class DraggableListExample extends React.Component<{}, State> {
           items={this.state.items}
           itemRenderer={(item: Item) => (
             <div className="item">
-              <span>({item.id})</span><span style={{ whiteSpace: 'pre' }}>{item.title}</span>
+              <p><span>({item.id})</span><span style={{ whiteSpace: 'pre' }}>{item.title}</span></p>
+              <img src={item.img} />
             </div>
           )}
           onChange={this.handleDnDContextChange}
