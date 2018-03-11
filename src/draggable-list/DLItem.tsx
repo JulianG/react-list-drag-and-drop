@@ -89,7 +89,7 @@ export default class DLItem extends React.Component<Props, State> {
     };
 
     if (this.state.isDragging === false && this.isDown) {
-      this.props.logic.handleDragBegin(this.props.itemId);
+      this.props.logic.handleDragBegin(this.props.itemId, this.initialOffset);
     }
     this.setState(Object.assign(this.state, { isDragging: this.isDown }));
 
@@ -100,7 +100,7 @@ export default class DLItem extends React.Component<Props, State> {
 
   private handleMouseMoveForHover(e: MouseEvent) {
     if (this.mouseOverPending) {
-      this.dispatchMouseOverIfWithinLimit(this.getOffset(e), 15);
+      this.dispatchMouseOverIfWithinLimit(this.getOffset(e));
     }
   }
 
@@ -120,9 +120,13 @@ export default class DLItem extends React.Component<Props, State> {
     this.mouseOverPending = false;
   }
 
-  private getOffset(e: { pageX: number, pageY: number }): { x: number; y: number } {
+  private getBox(): DOMRect | ClientRect {
     const ref = ReactDOM.findDOMNode(this);
-    const box = ref.getBoundingClientRect();
+    return ref.getBoundingClientRect();
+  }
+  private getOffset(e: { pageX: number, pageY: number }): { x: number; y: number } {
+    // const ref = ReactDOM.findDOMNode(this);
+    const box = this.getBox(); // ref.getBoundingClientRect();
     const docElement = document.documentElement;
     return {
       x: e.pageX - (box.left + docElement.scrollLeft - docElement.clientLeft),
@@ -130,11 +134,24 @@ export default class DLItem extends React.Component<Props, State> {
     };
   }
 
-  private dispatchMouseOverIfWithinLimit(offset: { x: number, y: number }, limit: number) {
+  private dispatchMouseOverIfWithinLimit(offset: { x: number, y: number }) {
 
-    const ref = ReactDOM.findDOMNode(this);
-    const box = ref.getBoundingClientRect();
-    if (offset.y < box.height / 2) {
+    const logic = this.props.logic;
+    const initialOffset = logic.getDraggedInitialOffset();
+    const threshold = logic.getThreshold();
+
+    const delta = {
+      x: offset.x - initialOffset.x,
+      y: offset.y - initialOffset.y
+    };
+
+    const conditions = {
+      'vertical': (): boolean => (delta.y * delta.y < threshold * threshold),
+      'horizontal': (): boolean => (delta.x * delta.x < threshold * threshold),
+      'grid': (): boolean => (delta.x * delta.x + delta.y * delta.y < threshold * threshold)
+    };
+
+    if (conditions[logic.getMode()]()) {
       this.props.logic.handleMouseOver(this.props.itemId);
       this.mouseOverPending = false;
     }

@@ -19,7 +19,7 @@ export default class DraggableListExample extends React.Component<{}, State> {
     this.state = {
       items: [
         { id: 0, title: 'Cavendish banana' },
-        { id: 1, title: 'Lacatan banana\n2nd line\n3rd line' },
+        { id: 1, title: 'Lacatan banana\n2nd line\n3rd line\n4th line\n5th line\n6th line\n7th line\n8th line' },
         { id: 2, title: 'Lady Finger banana\n2nd line' },
         { id: 3, title: 'Pisang jari buaya' },
         { id: 4, title: 'Señorita banana\n2nd line' },
@@ -43,6 +43,8 @@ export default class DraggableListExample extends React.Component<{}, State> {
         <p>Drag and drop items to re-order the list.</p>
         <DLContext
           cssClasses="example"
+          layout={'vertical'}
+          threshold={15}
           items={this.state.items}
           itemRenderer={(item: Item) => (
             <div className="item">

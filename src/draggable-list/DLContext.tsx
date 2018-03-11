@@ -12,6 +12,8 @@ interface Props {
   cssClasses: string;
   inlineStyle?: {};
   items: Array<Item>;
+  layout: 'vertical' | 'horizontal' | 'grid';
+  threshold: number;
   itemRenderer(item: Item): JSX.Element;
   onChange(items: Array<Item>): void;
 }
@@ -21,7 +23,7 @@ export default class DLContext extends React.Component<Props, {}> {
 
   constructor(props: Props) {
     super(props);
-    this.logic = new DLLogic(this.handleDnDChange.bind(this));
+    this.logic = new DLLogic(props.layout, props.threshold, this.handleDnDChange.bind(this));
   }
   render() {
     const cssClasses = this.props.cssClasses;
