@@ -13,13 +13,13 @@ interface State {
   items: Item[];
 }
 
-export default class DraggableListExample extends React.Component<{}, State> {
+export default class Example extends React.Component<{}, State> {
   constructor(props: {}) {
     super(props);
 
     this.state = {
       items: [
-        { id: 0, title: 'Cavendish banana', img: 'https://www.placehold.it/300x25/333333/ffffff' },
+        { id: 0, title: 'Cavendish banana', img: 'https://www.placehold.it/300x50/333333/ffffff' },
         { id: 1, title: 'Lacatan banana', img: 'https://www.placehold.it/300x50/333333/ffffff' },
         { id: 2, title: 'Lady Finger banana', img: 'https://www.placehold.it/300x100/333333/ffffff' },
         { id: 3, title: 'Pisang jari buaya', img: 'https://www.placehold.it/300x150/333333/ffffff' },
@@ -33,6 +33,7 @@ export default class DraggableListExample extends React.Component<{}, State> {
   }
 
   render() {
+    const items = this.state.items;
     return (
       <div>
         <h1>Draggable List</h1>
@@ -41,13 +42,17 @@ export default class DraggableListExample extends React.Component<{}, State> {
           cssClasses="example"
           layout={'vertical'}
           threshold={15}
-          items={this.state.items}
-          itemRenderer={(item: Item) => (
-            <div className="item">
-              <p><span>({item.id})</span><span style={{ whiteSpace: 'pre' }}>{item.title}</span></p>
-              <img src={item.img} />
-            </div>
-          )}
+          items={items}
+          itemRenderer={(i: number) => {
+            const item = items[i];
+            return (
+              <div className="item">
+                <div><span style={{ whiteSpace: 'pre' }}>{item.title}</span></div>
+                <img src={item.img + '?text=' + encodeURI(item.title)} />
+                <div className="small">(id: {item.id})</div>
+              </div>
+            );
+          }}
           onChange={this.handleDnDContextChange}
         />
       </div>

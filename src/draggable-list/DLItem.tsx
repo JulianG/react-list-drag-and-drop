@@ -14,6 +14,11 @@ interface State {
   isDragging: boolean;
 }
 
+interface BoxRect {
+  left: number;
+  top: number;
+}
+
 export default class DLItem extends React.Component<Props, State> {
   private isDown: boolean = false;
   private initialOffset: { x: number; y: number };
@@ -120,7 +125,7 @@ export default class DLItem extends React.Component<Props, State> {
     this.mouseOverPending = false;
   }
 
-  private getBox(): DOMRect | ClientRect {
+  private getBox(): BoxRect {
     const ref = ReactDOM.findDOMNode(this);
     return ref.getBoundingClientRect();
   }
