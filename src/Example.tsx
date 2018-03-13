@@ -55,6 +55,12 @@ export default class Example extends React.Component<{}, State> {
           }}
           onChange={this.handleDnDContextChange}
         />
+        <p>
+          Placeholder images by{' '}
+          <a target="_blank" href="https://placeholder.com/">
+            placeholder.com
+          </a>
+        </p>
       </div>
     );
   }
