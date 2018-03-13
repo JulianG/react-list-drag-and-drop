@@ -1,5 +1,5 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import DraggableListExample from './DraggableListExample';
+import Example from './Example';
 
-render(<DraggableListExample />, document.getElementById('root'));
+render(<Example />, document.getElementById('root'));

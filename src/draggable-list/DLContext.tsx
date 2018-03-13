@@ -14,7 +14,7 @@ interface Props {
   items: Array<Item>;
   layout: 'vertical' | 'horizontal' | 'grid';
   threshold: number;
-  itemRenderer(item: Item): JSX.Element;
+  itemRenderer(index: number): JSX.Element;
   onChange(items: Array<Item>): void;
 }
 
@@ -32,7 +32,7 @@ export default class DLContext extends React.Component<Props, {}> {
     const manager = this.logic;
     const itemRenderer = this.props.itemRenderer;
     const draggedItemId = this.logic.getDraggedId();
-    const draggedItem = items.find(item => item.id === draggedItemId);
+    const draggedItem = items.findIndex(item => item.id === draggedItemId);
 
     return (
       <div className={cssClasses} style={style}>
@@ -46,12 +46,12 @@ export default class DLContext extends React.Component<Props, {}> {
               dragged={manager.getDraggedId() === item.id}
               hovered={manager.getHoveredId() === item.id}
             >
-              {itemRenderer(item)}
+              {itemRenderer(i)}
             </DLItem>
           );
         })}
         <DLFloatingItem logic={manager}>
-          {draggedItem && itemRenderer(draggedItem)}
+          {draggedItem >= 0 && itemRenderer(draggedItem)}
         </DLFloatingItem>
       </div>
     );
