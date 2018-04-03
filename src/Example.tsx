@@ -36,7 +36,7 @@ export default class Example extends React.Component<{}, State> {
     const items = this.state.items;
     return (
       <div>
-        <h1>Draggable List</h1>
+        <h1>Draggable List of Bananas</h1>
         <p>Drag and drop items to re-order the list.</p>
         <DLContext
           cssClasses="example"
@@ -47,7 +47,9 @@ export default class Example extends React.Component<{}, State> {
             const item = items[i];
             return (
               <div className="item">
-                <div><span style={{ whiteSpace: 'pre' }}>{item.title}</span></div>
+                <div>
+                  <span style={{ whiteSpace: 'pre' }}>{item.title}</span>
+                </div>
                 <img src={item.img + '?text=' + encodeURI(item.title)} />
                 <div className="small">(id: {item.id})</div>
               </div>
@@ -69,4 +71,3 @@ export default class Example extends React.Component<{}, State> {
     this.setState({ items: newItems });
   }
 }
-/////

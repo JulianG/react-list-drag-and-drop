@@ -39,8 +39,9 @@ body {
 
 .floating .item {
   background-color: #ffffff;
+  box-shadow: 0 4px 20px #666666;
 }
 
 .dl-item.floating {
-  /* width: 100%; */
+  width: 85%;
 }
