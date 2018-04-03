@@ -23,7 +23,11 @@ export default class DLContext extends React.Component<Props, {}> {
 
   constructor(props: Props) {
     super(props);
-    this.logic = new DLLogic(props.layout, props.threshold, this.handleDnDChange.bind(this));
+    this.logic = new DLLogic(
+      props.layout,
+      props.threshold,
+      this.handleDnDChange.bind(this)
+    );
   }
   render() {
     const cssClasses = this.props.cssClasses;

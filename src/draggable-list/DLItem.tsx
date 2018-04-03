@@ -35,7 +35,10 @@ export default class DLItem extends React.Component<Props, State> {
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
 
-    document.addEventListener('mousemove', this.handleMouseMoveForHover.bind(this));
+    document.addEventListener(
+      'mousemove',
+      this.handleMouseMoveForHover.bind(this)
+    );
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -129,7 +132,10 @@ export default class DLItem extends React.Component<Props, State> {
     const ref = ReactDOM.findDOMNode(this);
     return ref.getBoundingClientRect();
   }
-  private getOffset(e: { pageX: number, pageY: number }): { x: number; y: number } {
+  private getOffset(e: {
+    pageX: number;
+    pageY: number;
+  }): { x: number; y: number } {
     // const ref = ReactDOM.findDOMNode(this);
     const box = this.getBox(); // ref.getBoundingClientRect();
     const docElement = document.documentElement;
@@ -139,8 +145,7 @@ export default class DLItem extends React.Component<Props, State> {
     };
   }
 
-  private dispatchMouseOverIfWithinLimit(offset: { x: number, y: number }) {
-
+  private dispatchMouseOverIfWithinLimit(offset: { x: number; y: number }) {
     const logic = this.props.logic;
     const initialOffset = logic.getDraggedInitialOffset();
     const threshold = logic.getThreshold();
@@ -151,9 +156,10 @@ export default class DLItem extends React.Component<Props, State> {
     };
 
     const conditions = {
-      'vertical': (): boolean => (delta.y * delta.y < threshold * threshold),
-      'horizontal': (): boolean => (delta.x * delta.x < threshold * threshold),
-      'grid': (): boolean => (delta.x * delta.x + delta.y * delta.y < threshold * threshold)
+      vertical: (): boolean => delta.y * delta.y < threshold * threshold,
+      horizontal: (): boolean => delta.x * delta.x < threshold * threshold,
+      grid: (): boolean =>
+        delta.x * delta.x + delta.y * delta.y < threshold * threshold
     };
 
     if (conditions[logic.getMode()]()) {
@@ -161,5 +167,4 @@ export default class DLItem extends React.Component<Props, State> {
       this.mouseOverPending = false;
     }
   }
-
 }
