@@ -42,6 +42,7 @@ export default class Example extends React.Component<{}, State> {
           cssClasses="example"
           layout={'vertical'}
           threshold={15}
+          dragDelay={250}
           items={items}
           itemRenderer={(i: number) => {
             const item = items[i];

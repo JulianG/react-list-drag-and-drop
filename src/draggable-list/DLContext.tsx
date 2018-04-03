@@ -14,8 +14,9 @@ interface Props {
   items: Array<Item>;
   layout: 'vertical' | 'horizontal' | 'grid';
   threshold: number;
+  dragDelay: number;
   itemRenderer(index: number): JSX.Element;
-  onChange(items: Array<Item>): void;
+  onChange(items: Array<Item>, changed: boolean): void;
 }
 
 export default class DLContext extends React.Component<Props, {}> {
@@ -23,12 +24,9 @@ export default class DLContext extends React.Component<Props, {}> {
 
   constructor(props: Props) {
     super(props);
-    this.logic = new DLLogic(
-      props.layout,
-      props.threshold,
-      this.handleDnDChange.bind(this)
-    );
+    this.logic = new DLLogic(props.layout, props.threshold, props.dragDelay, this.handleDnDChange.bind(this));
   }
+  
   render() {
     const cssClasses = this.props.cssClasses;
     const style = this.props.inlineStyle || {};
@@ -71,6 +69,6 @@ export default class DLContext extends React.Component<Props, {}> {
     } else {
       newItems = items;
     }
-    this.props.onChange(newItems);
+    this.props.onChange(newItems, newItems !== items);
   }
 }

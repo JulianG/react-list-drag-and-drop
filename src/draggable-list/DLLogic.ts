@@ -1,3 +1,4 @@
+
 interface Point {
   x: number;
   y: number;
@@ -6,6 +7,7 @@ interface Point {
 type DLLayout = 'vertical' | 'horizontal' | 'grid';
 
 export default class DLLogic {
+
   private draggedId: number = -1;
   private hoveredId: number = -1;
 
@@ -36,11 +38,16 @@ export default class DLLogic {
     return this.threshold;
   }
 
+  getDragDelay(): number {
+    return this.dragDelay;
+  }
+
   constructor(
     private mode: DLLayout,
     private threshold: number,
+    private dragDelay: number,
     private onChange: (id: number, target: number) => void
-  ) {}
+  ) { }
 
   handleDragBegin(id: number, initialOffset: Point) {
     this.draggedInitialOffset = initialOffset;
@@ -88,4 +95,5 @@ export default class DLLogic {
     }
     return newItems;
   }
+
 }
