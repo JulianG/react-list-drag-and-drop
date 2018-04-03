@@ -21,6 +21,7 @@ interface BoxRect {
 
 export default class DLItem extends React.Component<Props, State> {
   private isDown: boolean = false;
+  private mouseDownTimestamp: number = 0;
   private initialOffset: { x: number; y: number };
   private mouseOverPending: boolean;
 
@@ -35,10 +36,7 @@ export default class DLItem extends React.Component<Props, State> {
     this.handleMouseOver = this.handleMouseOver.bind(this);
     this.handleMouseOut = this.handleMouseOut.bind(this);
 
-    document.addEventListener(
-      'mousemove',
-      this.handleMouseMoveForHover.bind(this)
-    );
+    document.addEventListener('mousemove', this.handleMouseMoveForHover.bind(this));
   }
 
   componentDidUpdate(prevProps: Props, prevState: State) {
@@ -80,6 +78,7 @@ export default class DLItem extends React.Component<Props, State> {
 
   private handleMouseDown(e: React.MouseEvent<HTMLElement>) {
     this.isDown = true;
+    this.mouseDownTimestamp = new Date().getTime();
     this.initialOffset = this.getOffset(e);
     e.preventDefault();
     //
@@ -87,7 +86,7 @@ export default class DLItem extends React.Component<Props, State> {
   }
 
   private handleMouseMove(e: MouseEvent) {
-    if (this.isDown === false) {
+    if (this.isDown === false || this.getTimeSinceMouseDown() < this.props.logic.getDragDelay()) {
       return;
     }
 
@@ -104,6 +103,10 @@ export default class DLItem extends React.Component<Props, State> {
     if (this.isDown) {
       this.props.logic.handleMouseMove(this.props.itemId, offset);
     }
+  }
+
+  private getTimeSinceMouseDown(): number {
+    return new Date().getTime() - this.mouseDownTimestamp;
   }
 
   private handleMouseMoveForHover(e: MouseEvent) {
@@ -132,12 +135,8 @@ export default class DLItem extends React.Component<Props, State> {
     const ref = ReactDOM.findDOMNode(this);
     return ref.getBoundingClientRect();
   }
-  private getOffset(e: {
-    pageX: number;
-    pageY: number;
-  }): { x: number; y: number } {
-    // const ref = ReactDOM.findDOMNode(this);
-    const box = this.getBox(); // ref.getBoundingClientRect();
+  private getOffset(e: { pageX: number, pageY: number }): { x: number; y: number } {
+    const box = this.getBox();
     const docElement = document.documentElement;
     return {
       x: e.pageX - (box.left + docElement.scrollLeft - docElement.clientLeft),
@@ -145,7 +144,8 @@ export default class DLItem extends React.Component<Props, State> {
     };
   }
 
-  private dispatchMouseOverIfWithinLimit(offset: { x: number; y: number }) {
+  private dispatchMouseOverIfWithinLimit(offset: { x: number, y: number }) {
+
     const logic = this.props.logic;
     const initialOffset = logic.getDraggedInitialOffset();
     const threshold = logic.getThreshold();
@@ -156,10 +156,9 @@ export default class DLItem extends React.Component<Props, State> {
     };
 
     const conditions = {
-      vertical: (): boolean => delta.y * delta.y < threshold * threshold,
-      horizontal: (): boolean => delta.x * delta.x < threshold * threshold,
-      grid: (): boolean =>
-        delta.x * delta.x + delta.y * delta.y < threshold * threshold
+      'vertical': (): boolean => (delta.y * delta.y < threshold * threshold),
+      'horizontal': (): boolean => (delta.x * delta.x < threshold * threshold),
+      'grid': (): boolean => (delta.x * delta.x + delta.y * delta.y < threshold * threshold)
     };
 
     if (conditions[logic.getMode()]()) {
@@ -167,4 +166,5 @@ export default class DLItem extends React.Component<Props, State> {
       this.mouseOverPending = false;
     }
   }
+
 }
