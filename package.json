@@ -1,5 +1,5 @@
 {
-  "name": "draggable-list-using-react-typescript",
+  "name": "react-list-drag-and-drop",
   "version": "0.1.0",
   "private": true,
   "main": "src/index.tsx",
@@ -26,5 +26,5 @@
     "typescript",
     "drag and drop"
   ],
-  "description": "Using Render Props"
+  "description": "..."
 }
