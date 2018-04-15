@@ -41,9 +41,6 @@ export default class Example extends React.Component<{}, ExampleState> {
         <p>Drag and drop items to re-order the list.</p>
         <DLContext
           cssClasses="example"
-          layout={'vertical'}
-          threshold={15}
-          dragDelay={250}
           items={items}
           itemRenderer={this.itemRenderer}
           onChange={this.handleDnDContextChange}
@@ -52,8 +49,8 @@ export default class Example extends React.Component<{}, ExampleState> {
     );
   }
 
-  private itemRenderer(i: number): JSX.Element {
-    const item = this.state.items[i];
+  private itemRenderer(index: number): JSX.Element {
+    const item = this.state.items[index];
     return (
       <div className="item">
         <div>
@@ -65,7 +62,7 @@ export default class Example extends React.Component<{}, ExampleState> {
     );
   }
 
-  private handleDnDContextChange(newItems: Array<Item>) {
-    this.setState({ items: newItems });
+  private handleDnDContextChange(reorderedItems: Array<Item>) {
+    this.setState({ items: reorderedItems });
   }
 }

@@ -9,26 +9,35 @@ export interface DLContextItem {
 }
 
 export interface DLContextProps {
-  cssClasses: string;
+  cssClasses?: string;
   inlineStyle?: {};
+  layout?: 'vertical' | 'horizontal' | 'grid';
+  threshold?: number;
+  dragDelay?: number;
   items: Array<DLContextItem>;
-  layout: 'vertical' | 'horizontal' | 'grid';
-  threshold: number;
-  dragDelay: number;
   itemRenderer(index: number): JSX.Element;
   onChange(items: Array<DLContextItem>, changed: boolean): void;
 }
 
 export default class DLContext extends React.Component<DLContextProps, {}> {
+
+  static defaultProps: Partial<DLContextProps> = {
+    cssClasses: '',
+    inlineStyle: {},
+    layout: 'vertical',
+    threshold: 15,
+    dragDelay: 250
+  };
+
   private logic: DLLogic;
 
   constructor(props: DLContextProps) {
     super(props);
-    this.logic = new DLLogic(props.layout, props.threshold, props.dragDelay, this.handleDnDChange.bind(this));
+    this.logic = new DLLogic(props.layout!, props.threshold!, props.dragDelay!, this.handleDnDChange.bind(this));
   }
 
   render() {
-    const cssClasses = this.props.cssClasses;
+    const cssClasses = this.props.cssClasses || '';
     const style = this.props.inlineStyle || {};
     const items = this.props.items;
     const manager = this.logic;
