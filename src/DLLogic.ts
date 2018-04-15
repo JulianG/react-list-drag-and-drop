@@ -1,19 +1,19 @@
 
-interface Point {
+export interface DLPoint {
   x: number;
   y: number;
 }
 
-type DLLayout = 'vertical' | 'horizontal' | 'grid';
+export type DLLayout = 'vertical' | 'horizontal' | 'grid';
 
 export default class DLLogic {
 
   private draggedId: number = -1;
   private hoveredId: number = -1;
 
-  private draggedInitialOffset: Point = { x: 0, y: 0 };
+  private draggedInitialOffset: DLPoint = { x: 0, y: 0 };
 
-  private offset: Point = { x: 0, y: 0 };
+  private offset: DLPoint = { x: 0, y: 0 };
 
   getMode(): DLLayout {
     return this.mode;
@@ -26,11 +26,11 @@ export default class DLLogic {
     return this.hoveredId;
   }
 
-  getOffset(): Point {
+  getOffset(): DLPoint {
     return this.offset;
   }
 
-  getDraggedInitialOffset(): Point {
+  getDraggedInitialOffset(): DLPoint {
     return this.draggedInitialOffset;
   }
 
@@ -49,7 +49,7 @@ export default class DLLogic {
     private onChange: (id: number, target: number) => void
   ) { }
 
-  handleDragBegin(id: number, initialOffset: Point) {
+  handleDragBegin(id: number, initialOffset: DLPoint) {
     this.draggedInitialOffset = initialOffset;
     this.draggedId = id;
     this.onChange(-1, -1);
@@ -66,7 +66,7 @@ export default class DLLogic {
     }
   }
 
-  handleMouseMove(id: number, offset: Point) {
+  handleMouseMove(id: number, offset: DLPoint) {
     this.offset = offset;
     this.onChange(-1, -1);
   }
