@@ -1,13 +1,13 @@
 import * as React from 'react';
-import DLLogic from './DLLogic';
+import RLDDLogic from './RLDDLogic';
 
 import './DLFloatingItem.css';
 
-export interface DLFloatingItemProps {
-  logic: DLLogic;
+export interface RLDDFloatingItemProps {
+  logic: RLDDLogic;
 }
 
-class DLFloatingItem extends React.Component<DLFloatingItemProps, {}> {
+class RLDDFloatingItemComponent extends React.Component<RLDDFloatingItemProps, {}> {
   render() {
     const logic = this.props.logic;
     const offset = logic.getOffset();
@@ -31,4 +31,4 @@ class DLFloatingItem extends React.Component<DLFloatingItemProps, {}> {
   }
 }
 
-export default DLFloatingItem;
+export default RLDDFloatingItemComponent;

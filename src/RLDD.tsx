@@ -1,27 +1,27 @@
 import * as React from 'react';
 
-import DLItem from './DLItem';
-import DLLogic from './DLLogic';
-import DLFloatingItem from './DLFloatingItem';
+import RLDDItemComponent from './RLDDItemComponent';
+import RLDDLogic from './RLDDLogic';
+import RLDDFloatingItemComponent from './RLDDFloatingItemComponent';
 
-export interface DLContextItem {
+export interface RLDDItem {
   id: number;
 }
 
-export interface DLContextProps {
+export interface RLDDProps {
   cssClasses?: string;
   inlineStyle?: {};
   layout?: 'vertical' | 'horizontal' | 'grid';
   threshold?: number;
   dragDelay?: number;
-  items: Array<DLContextItem>;
+  items: Array<RLDDItem>;
   itemRenderer(index: number): JSX.Element;
-  onChange(items: Array<DLContextItem>, changed: boolean): void;
+  onChange(items: Array<RLDDItem>, changed: boolean): void;
 }
 
-export default class DLContext extends React.Component<DLContextProps, {}> {
+export default class RLDD extends React.Component<RLDDProps, {}> {
 
-  static defaultProps: Partial<DLContextProps> = {
+  static defaultProps: Partial<RLDDProps> = {
     cssClasses: '',
     inlineStyle: {},
     layout: 'vertical',
@@ -29,11 +29,11 @@ export default class DLContext extends React.Component<DLContextProps, {}> {
     dragDelay: 250
   };
 
-  private logic: DLLogic;
+  private logic: RLDDLogic;
 
-  constructor(props: DLContextProps) {
+  constructor(props: RLDDProps) {
     super(props);
-    this.logic = new DLLogic(props.layout!, props.threshold!, props.dragDelay!, this.handleDnDChange.bind(this));
+    this.logic = new RLDDLogic(props.layout!, props.threshold!, props.dragDelay!, this.handleDnDChange.bind(this));
   }
 
   render() {
@@ -49,7 +49,7 @@ export default class DLContext extends React.Component<DLContextProps, {}> {
       <div className={cssClasses} style={style}>
         {items.map((item, i) => {
           return (
-            <DLItem
+            <RLDDItemComponent
               key={i}
               logic={manager}
               itemId={item.id}
@@ -58,12 +58,12 @@ export default class DLContext extends React.Component<DLContextProps, {}> {
               hovered={manager.getHoveredId() === item.id}
             >
               {itemRenderer(i)}
-            </DLItem>
+            </RLDDItemComponent>
           );
         })}
-        <DLFloatingItem logic={manager}>
+        <RLDDFloatingItemComponent logic={manager}>
           {draggedItem >= 0 && itemRenderer(draggedItem)}
-        </DLFloatingItem>
+        </RLDDFloatingItemComponent>
       </div>
     );
   }

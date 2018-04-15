@@ -1,16 +1,16 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import DLLogic from './DLLogic';
+import RLDDLogic from './RLDDLogic';
 
-export interface DLItemProps {
-  logic: DLLogic;
+export interface RLDDItemProps {
+  logic: RLDDLogic;
   itemId: number;
   activity: boolean;
   dragged: boolean;
   hovered: boolean;
 }
 
-export interface DLItemState {
+export interface RLDDItemState {
   isDragging: boolean;
 }
 
@@ -19,13 +19,13 @@ interface BoxRect {
   top: number;
 }
 
-export default class DLItem extends React.Component<DLItemProps, DLItemState> {
+export default class RLDDItemComponent extends React.Component<RLDDItemProps, RLDDItemState> {
   private isDown: boolean = false;
   private mouseDownTimestamp: number = 0;
   private initialOffset: { x: number; y: number };
   private mouseOverPending: boolean;
 
-  constructor(props: DLItemProps) {
+  constructor(props: RLDDItemProps) {
     super(props);
     this.state = { isDragging: false };
     this.mouseOverPending = false;
@@ -40,7 +40,7 @@ export default class DLItem extends React.Component<DLItemProps, DLItemState> {
     document.addEventListener('mousemove', this.handleMouseMoveForHover.bind(this));
   }
 
-  componentDidUpdate(prevProps: DLItemProps, prevState: DLItemState) {
+  componentDidUpdate(prevProps: RLDDItemProps, prevState: RLDDItemState) {
     if (!this.state.isDragging && prevState.isDragging) {
       this.removeDocumentListeners();
     }
