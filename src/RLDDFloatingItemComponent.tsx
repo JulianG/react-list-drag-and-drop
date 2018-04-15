@@ -1,7 +1,7 @@
 import * as React from 'react';
 import RLDDLogic from './RLDDLogic';
 
-import './DLFloatingItem.css';
+import './RLDDFloatingItem.css';
 
 export interface RLDDFloatingItemProps {
   logic: RLDDLogic;

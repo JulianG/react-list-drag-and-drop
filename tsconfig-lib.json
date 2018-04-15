@@ -11,8 +11,8 @@
 		"jsx": "react"
 	},
 	"include": [
-		"./src/DL*.tsx",
-		"./src/DL*.ts"
+		"./src/RLDD*.tsx",
+		"./src/RLDD*.ts"
 	],
 	"exclude": [
 		"node_modules"

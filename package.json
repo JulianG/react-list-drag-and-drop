@@ -35,9 +35,9 @@
     "LICENSE"
   ],
   "types": [
-    "./lib/DLContext.d.ts",
-    "./lib/DLFloatingItem.d.ts",
-    "./lib/DLItem.d.ts",
-    "./lib/DLLogic.d.ts"
+    "./lib/RLDD.d.ts",
+    "./lib/RLDDFloatingItemComponent.d.ts",
+    "./lib/RLDDItemComponent.d.ts",
+    "./lib/RLDDLogic.d.ts"
   ]
 }
