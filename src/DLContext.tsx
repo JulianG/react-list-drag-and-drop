@@ -4,29 +4,29 @@ import DLItem from './DLItem';
 import DLLogic from './DLLogic';
 import DLFloatingItem from './DLFloatingItem';
 
-interface Item {
+export interface DLContextItem {
   id: number;
 }
 
-interface Props {
+export interface DLContextProps {
   cssClasses: string;
   inlineStyle?: {};
-  items: Array<Item>;
+  items: Array<DLContextItem>;
   layout: 'vertical' | 'horizontal' | 'grid';
   threshold: number;
   dragDelay: number;
   itemRenderer(index: number): JSX.Element;
-  onChange(items: Array<Item>, changed: boolean): void;
+  onChange(items: Array<DLContextItem>, changed: boolean): void;
 }
 
-export default class DLContext extends React.Component<Props, {}> {
+export default class DLContext extends React.Component<DLContextProps, {}> {
   private logic: DLLogic;
 
-  constructor(props: Props) {
+  constructor(props: DLContextProps) {
     super(props);
     this.logic = new DLLogic(props.layout, props.threshold, props.dragDelay, this.handleDnDChange.bind(this));
   }
-  
+
   render() {
     const cssClasses = this.props.cssClasses;
     const style = this.props.inlineStyle || {};
@@ -34,7 +34,7 @@ export default class DLContext extends React.Component<Props, {}> {
     const manager = this.logic;
     const itemRenderer = this.props.itemRenderer;
     const draggedItemId = this.logic.getDraggedId();
-    const draggedItem = items.findIndex(item => item.id === draggedItemId);
+    const draggedItem = this.findItemIndexById(draggedItemId);
 
     return (
       <div className={cssClasses} style={style}>
@@ -59,10 +59,10 @@ export default class DLContext extends React.Component<Props, {}> {
     );
   }
 
-  handleDnDChange(id0: number, id1: number) {
+  private handleDnDChange(id0: number, id1: number) {
     const items = this.props.items;
-    const index0 = items.findIndex(item => item.id === id0);
-    const index1 = items.findIndex(item => item.id === id1);
+    const index0 = this.findItemIndexById(id0);
+    const index1 = this.findItemIndexById(id1);
     let newItems = [];
     if (index0 >= 0 && index1 >= 0) {
       newItems = this.logic.arrangeItems(this.props.items, index0, index1);
@@ -70,5 +70,10 @@ export default class DLContext extends React.Component<Props, {}> {
       newItems = items;
     }
     this.props.onChange(newItems, newItems !== items);
+  }
+
+  private findItemIndexById(id: number): number {
+    const item = this.props.items.find(it => it.id === id);
+    return item ? this.props.items.indexOf(item) : -1;
   }
 }

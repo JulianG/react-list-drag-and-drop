@@ -1,19 +1,19 @@
 import * as React from 'react';
-import DLContext from './draggable-list/DLContext';
+import DLContext from './DLContext';
 
 import './example.css';
 
-interface Item {
+export interface Item {
   id: number;
   title: string;
   img: string;
 }
 
-interface State {
+export interface ExampleState {
   items: Item[];
 }
 
-export default class Example extends React.Component<{}, State> {
+export default class Example extends React.Component<{}, ExampleState> {
   constructor(props: {}) {
     super(props);
 
@@ -29,6 +29,7 @@ export default class Example extends React.Component<{}, State> {
       ]
     };
 
+    this.itemRenderer = this.itemRenderer.bind(this);
     this.handleDnDContextChange = this.handleDnDContextChange.bind(this);
   }
 
@@ -44,26 +45,22 @@ export default class Example extends React.Component<{}, State> {
           threshold={15}
           dragDelay={250}
           items={items}
-          itemRenderer={(i: number) => {
-            const item = items[i];
-            return (
-              <div className="item">
-                <div>
-                  <span style={{ whiteSpace: 'pre' }}>{item.title}</span>
-                </div>
-                <img src={item.img + '?text=' + encodeURI(item.title)} />
-                <div className="small">(id: {item.id})</div>
-              </div>
-            );
-          }}
+          itemRenderer={this.itemRenderer}
           onChange={this.handleDnDContextChange}
         />
-        <p>
-          Placeholder images by{' '}
-          <a target="_blank" href="https://placeholder.com/">
-            placeholder.com
-          </a>
-        </p>
+      </div>
+    );
+  }
+
+  private itemRenderer(i: number): JSX.Element {
+    const item = this.state.items[i];
+    return (
+      <div className="item">
+        <div>
+          <span style={{ whiteSpace: 'pre' }}>{item.title}</span>
+        </div>
+        <img src={item.img + '?text=' + encodeURI(item.title)} />
+        <div className="small">(id: {item.id})</div>
       </div>
     );
   }

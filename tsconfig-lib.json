@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"outDir": "./lib",
+		"target": "es5",
+		"lib": ["es6", "dom"],
+		"module": "commonjs",
+		"noImplicitAny": true,
+		"removeComments": true,
+    "declaration": true,
+		"sourceMap": true,
+		"jsx": "react"
+	},
+	"include": [
+		"./src/DL*.tsx",
+		"./src/DL*.ts"
+	],
+	"exclude": [
+		"node_modules"
+	]
+}

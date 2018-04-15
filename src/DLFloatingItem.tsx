@@ -3,11 +3,11 @@ import DLLogic from './DLLogic';
 
 import './DLFloatingItem.css';
 
-interface Props {
+export interface DLFloatingItemProps {
   logic: DLLogic;
 }
 
-class DLFloatingItem extends React.Component<Props, {}> {
+class DLFloatingItem extends React.Component<DLFloatingItemProps, {}> {
   render() {
     const logic = this.props.logic;
     const offset = logic.getOffset();
