@@ -1,9 +1,9 @@
 import * as React from 'react';
-import DLContext from './DLContext';
+import RLDD from './RLDD';
 
 import './example.css';
 
-export interface Item {
+interface Item {
   id: number;
   title: string;
   img: string;
@@ -39,7 +39,7 @@ export default class Example extends React.Component<{}, ExampleState> {
       <div>
         <h1>Draggable List of Bananas</h1>
         <p>Drag and drop items to re-order the list.</p>
-        <DLContext
+        <RLDD
           cssClasses="example"
           items={items}
           itemRenderer={this.itemRenderer}

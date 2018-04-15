@@ -1,21 +1,21 @@
 
-export interface DLPoint {
+export interface RLDDPoint {
   x: number;
   y: number;
 }
 
-export type DLLayout = 'vertical' | 'horizontal' | 'grid';
+export type RLDDLayout = 'vertical' | 'horizontal' | 'grid';
 
-export default class DLLogic {
+export default class RLDDLogic {
 
   private draggedId: number = -1;
   private hoveredId: number = -1;
 
-  private draggedInitialOffset: DLPoint = { x: 0, y: 0 };
+  private draggedInitialOffset: RLDDPoint = { x: 0, y: 0 };
 
-  private offset: DLPoint = { x: 0, y: 0 };
+  private offset: RLDDPoint = { x: 0, y: 0 };
 
-  getMode(): DLLayout {
+  getMode(): RLDDLayout {
     return this.mode;
   }
   getDraggedId(): number {
@@ -26,11 +26,11 @@ export default class DLLogic {
     return this.hoveredId;
   }
 
-  getOffset(): DLPoint {
+  getOffset(): RLDDPoint {
     return this.offset;
   }
 
-  getDraggedInitialOffset(): DLPoint {
+  getDraggedInitialOffset(): RLDDPoint {
     return this.draggedInitialOffset;
   }
 
@@ -43,13 +43,13 @@ export default class DLLogic {
   }
 
   constructor(
-    private mode: DLLayout,
+    private mode: RLDDLayout,
     private threshold: number,
     private dragDelay: number,
     private onChange: (id: number, target: number) => void
   ) { }
 
-  handleDragBegin(id: number, initialOffset: DLPoint) {
+  handleDragBegin(id: number, initialOffset: RLDDPoint) {
     this.draggedInitialOffset = initialOffset;
     this.draggedId = id;
     this.onChange(-1, -1);
@@ -66,7 +66,7 @@ export default class DLLogic {
     }
   }
 
-  handleMouseMove(id: number, offset: DLPoint) {
+  handleMouseMove(id: number, offset: RLDDPoint) {
     this.offset = offset;
     this.onChange(-1, -1);
   }
