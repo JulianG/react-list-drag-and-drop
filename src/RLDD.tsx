@@ -15,7 +15,7 @@ export interface RLDDProps {
   threshold?: number;
   dragDelay?: number;
   items: Array<RLDDItem>;
-  itemRenderer(index: number): JSX.Element;
+  itemRenderer(item: RLDDItem, index?: number): JSX.Element;
   onChange(items: Array<RLDDItem>, changed: boolean): void;
 }
 
@@ -57,12 +57,12 @@ export default class RLDD extends React.Component<RLDDProps, {}> {
               dragged={manager.getDraggedId() === item.id}
               hovered={manager.getHoveredId() === item.id}
             >
-              {itemRenderer(i)}
+              {itemRenderer(item, i)}
             </RLDDItemComponent>
           );
         })}
         <RLDDFloatingItemComponent logic={manager}>
-          {draggedItem >= 0 && itemRenderer(draggedItem)}
+          {draggedItem >= 0 && itemRenderer(items[draggedItem], draggedItem)}
         </RLDDFloatingItemComponent>
       </div>
     );

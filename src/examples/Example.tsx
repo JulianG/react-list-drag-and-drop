@@ -49,8 +49,7 @@ export default class Example extends React.Component<{}, ExampleState> {
     );
   }
 
-  private itemRenderer(index: number): JSX.Element {
-    const item = this.state.items[index];
+  private itemRenderer(item: Item, index: number): JSX.Element {
     return (
       <div className="item">
         <p className="title">{item.title}</p>
