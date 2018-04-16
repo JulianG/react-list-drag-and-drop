@@ -1,12 +1,14 @@
 import * as React from 'react';
-import RLDD from './RLDD';
+import RLDD from '../RLDD';
 
 import './example.css';
+
+const bananas = require('./bananas.json');
 
 interface Item {
   id: number;
   title: string;
-  img: string;
+  body: string;
 }
 
 export interface ExampleState {
@@ -18,15 +20,7 @@ export default class Example extends React.Component<{}, ExampleState> {
     super(props);
 
     this.state = {
-      items: [
-        { id: 0, title: 'Cavendish banana', img: 'https://www.placehold.it/300x50/333333/ffffff' },
-        { id: 1, title: 'Lacatan banana', img: 'https://www.placehold.it/300x50/333333/ffffff' },
-        { id: 2, title: 'Lady Finger banana', img: 'https://www.placehold.it/300x100/333333/ffffff' },
-        { id: 3, title: 'Pisang jari buaya', img: 'https://www.placehold.it/300x150/333333/ffffff' },
-        { id: 4, title: 'Señorita banana', img: 'https://www.placehold.it/300x200/333333/ffffff' },
-        { id: 5, title: 'Sinwobogi banana', img: 'https://www.placehold.it/300x250/333333/ffffff' },
-        { id: 6, title: 'Cavendish banana', img: 'https://www.placehold.it/300x300/333333/ffffff' }
-      ]
+      items: bananas.bananas
     };
 
     this.itemRenderer = this.itemRenderer.bind(this);
@@ -37,7 +31,13 @@ export default class Example extends React.Component<{}, ExampleState> {
     const items = this.state.items;
     return (
       <div>
-        <h1>Draggable List of Bananas</h1>
+        <h1>react-list-drag-and-drop</h1>
+        <p>
+          <a href="https://www.npmjs.com/package/react-list-drag-and-drop">
+            <img src="https://nodei.co/npm/react-list-drag-and-drop.png?mini=true" />
+          </a>
+        </p>
+        <h2>Example 1: Draggable List of Bananas</h2>
         <p>Drag and drop items to re-order the list.</p>
         <RLDD
           cssClasses="example"
@@ -53,11 +53,9 @@ export default class Example extends React.Component<{}, ExampleState> {
     const item = this.state.items[index];
     return (
       <div className="item">
-        <div>
-          <span style={{ whiteSpace: 'pre' }}>{item.title}</span>
-        </div>
-        <img src={item.img + '?text=' + encodeURI(item.title)} />
-        <div className="small">(id: {item.id})</div>
+        <p className="title">{item.title}</p>
+        <p className="body">{item.body}</p>
+        <div className="small">item.id: {item.id} - index: {index}</div>
       </div>
     );
   }

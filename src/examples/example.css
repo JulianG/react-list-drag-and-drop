@@ -27,8 +27,21 @@ body {
   opacity: 1;
 }
 
+.item .title {
+  font-weight: bold;
+  font-size: 125%;
+  margin: 0;
+  margin-bottom: 0.3rem;
+}
+
+.item .body {
+  margin: 0;
+  margin-bottom: 0.3rem;
+}
+
 .item .small {
   font-size: 66%;
+  text-align: right;
 }
 
 .dragged .item {
