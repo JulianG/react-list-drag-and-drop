@@ -1,0 +1,39 @@
+{
+	"bananas": [
+		{
+			"id": 0,
+			"title": "Cavendish banana",
+			"body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+		},
+		{
+			"id": 1,
+			"title": "Lacatan banana",
+			"body": "Vestibulum luctus euismod ultrices. Nam placerat semper risus, nec blandit purus suscipit nec. Integer varius egestas rhoncus."
+		},
+		{
+			"id": 2,
+			"title": "Lady Finger banana",
+			"body": "Fusce sagittis, nisl commodo bibendum tempor, lacus ex vulputate nisi, in iaculis nulla lorem ac urna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Mauris pharetra lobortis facilisis."
+		},
+		{
+			"id": 3,
+			"title": "Pisang jari buaya",
+			"body": "Curabitur pharetra nulla risus, id gravida erat molestie sit amet. Sed tortor metus, sagittis in varius vel, pharetra venenatis tortor. Aenean diam mauris, hendrerit sed laoreet vitae, posuere lobortis tortor. Ut gravida vestibulum consectetur."
+		},
+		{
+			"id": 4,
+			"title": "Señorita banana",
+			"body": "Mauris ultrices magna eget ex auctor, in convallis eros condimentum. Donec scelerisque tristique dolor vel posuere. Fusce felis eros, vulputate ut fringilla sed, congue ut ipsum. Donec molestie augue sed neque fermentum molestie. Proin vitae urna vitae nibh auctor commodo vel non nibh."
+		},
+		{
+			"id": 5,
+			"title": "Sinwobogi banana",
+			"body": "Pellentesque risus lectus, mollis nec porttitor eu, bibendum quis tortor. Vestibulum sed scelerisque tortor. Cras scelerisque et augue et pharetra. Maecenas facilisis tempor diam at egestas. Aliquam fermentum interdum augue eget varius. Nunc vestibulum mi nibh."
+		},
+		{
+			"id": 6,
+			"title": "Cavendish banana",
+			"body": "Nam elementum interdum leo. Morbi tincidunt nisl odio, et gravida orci scelerisque eget. Donec justo magna, mollis tincidunt tempor eget, blandit id nibh. Nam luctus eleifend congue. Sed consectetur lobortis rhoncus. Mauris suscipit eleifend arcu nec posuere. Fusce posuere libero sit amet egestas rutrum. Aliquam erat volutpat. Mauris diam odio, ornare sit amet venenatis quis, laoreet non turpis."
+		}
+	]
+}
