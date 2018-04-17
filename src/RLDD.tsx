@@ -15,7 +15,7 @@ export interface RLDDProps {
   threshold?: number;
   dragDelay?: number;
   items: Array<RLDDItem>;
-  itemRenderer(item: RLDDItem, index?: number): JSX.Element;
+  itemRenderer(item: RLDDItem, index: number): JSX.Element;
   onChange(items: Array<RLDDItem>, changed: boolean): void;
 }
 
