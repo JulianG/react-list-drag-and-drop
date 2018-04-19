@@ -17,9 +17,9 @@ import DLContext from 'react-list-drag-and-drop/lib/DLContext';
 ```
 <RLDD
   items={items}
-  itemRenderer={(i: number) => {
+  itemRenderer={(item: Item) => {
     return (
-      <div className="item">{items[i].title}</div>
+      <div className="item">{item.title}</div>
     );
   }}
   onChange={this.handleDnDContextChange}
