@@ -32,7 +32,7 @@ Then you need to handle the onChange callback and call `setState` with the new l
   }
 ```
 
-Play around with the examples
+You can play around with the examples
 
 ### Typescript
 
