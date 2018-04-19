@@ -12,6 +12,12 @@ You must have an `Array` of items to render in your list. Instead of rendering i
 
 ```typescript
 import RLDD from 'react-list-drag-and-drop/lib/RLDD';
+
+interface Item {
+  id: number;
+  title: string;
+  /* and anything you want this is your type */
+}
 ```
 
 ```jsx
