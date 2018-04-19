@@ -11,7 +11,7 @@ npm install --save react-list-drag-and-drop
 You must have an `Array` of items to render in your list. Instead of rendering it inside a `<div>` you render it inside a `<RLDD>` component using a render prop.
 
 ```typescript
-import DLContext from 'react-list-drag-and-drop/lib/DLContext';
+import RLDD from 'react-list-drag-and-drop/lib/RLDD';
 ```
 
 ```jsx
