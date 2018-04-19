@@ -10,20 +10,14 @@ npm install --save react-list-drag-and-drop
 
 You must have an `Array` of items to render in your list. Instead of rendering it inside a `<div>` you render it inside a `<RLDD>` component using a render prop.
 
-```typescript
+```javascript
 import RLDD from 'react-list-drag-and-drop/lib/RLDD';
-
-interface Item {
-  id: number;
-  title: string;
-  /* and anything you want this is your type */
-}
 ```
 
 ```jsx
 <RLDD
   items={items}
-  itemRenderer={(item: Item) => {
+  itemRenderer={(item) => {
     return (
       <div className="item">{item.title}</div>
     );
@@ -32,8 +26,8 @@ interface Item {
 />
 ```
 Then you need to handle the onChange callback and call `setState` with the new list. Like this:
-```typescript
-  private handleDnDContextChange(newItems: Array<Item>) {
+```javascript
+  private handleDnDContextChange(newItems) {
     this.setState({ items: newItems });
   }
 ```
