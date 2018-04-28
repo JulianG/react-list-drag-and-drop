@@ -8,6 +8,14 @@ export interface RLDDFloatingItemProps {
 }
 
 class RLDDFloatingItemComponent extends React.Component<RLDDFloatingItemProps, {}> {
+
+  constructor(props: RLDDFloatingItemProps) {
+    super(props);
+
+    this.props.logic.onMouseMoveSignal.addListener((id: number, offset: {}) => {
+      this.forceUpdate();
+    });
+  }
   render() {
     const logic = this.props.logic;
     const offset = logic.getOffset();

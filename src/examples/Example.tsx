@@ -18,13 +18,7 @@ export interface ExampleState {
 export default class Example extends React.Component<{}, ExampleState> {
   constructor(props: {}) {
     super(props);
-
-    this.state = {
-      items: bananas.bananas
-    };
-
-    this.itemRenderer = this.itemRenderer.bind(this);
-    this.handleDnDContextChange = this.handleDnDContextChange.bind(this);
+    this.state = { items: bananas.bananas };
   }
 
   render() {
@@ -43,13 +37,13 @@ export default class Example extends React.Component<{}, ExampleState> {
           cssClasses="example"
           items={items}
           itemRenderer={this.itemRenderer}
-          onChange={this.handleDnDContextChange}
+          onChange={this.handleRLDDChange}
         />
       </div>
     );
   }
 
-  private itemRenderer(item: Item, index: number): JSX.Element {
+  private itemRenderer = (item: Item, index: number): JSX.Element => {
     return (
       <div className="item">
         <p className="title">{item.title}</p>
@@ -59,7 +53,8 @@ export default class Example extends React.Component<{}, ExampleState> {
     );
   }
 
-  private handleDnDContextChange(reorderedItems: Array<Item>) {
+  private handleRLDDChange = (reorderedItems: Array<Item>) => {
+    console.log(`handleRLDDChange ${Math.random()}`);
     this.setState({ items: reorderedItems });
   }
 }
