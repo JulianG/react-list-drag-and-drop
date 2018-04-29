@@ -19,7 +19,7 @@ export interface RLDDProps {
   onChange(items: Array<RLDDItem>): void;
 }
 
-export default class RLDD extends React.Component<RLDDProps, {}> {
+export default class RLDD extends React.PureComponent<RLDDProps, {}> {
 
   static defaultProps: Partial<RLDDProps> = {
     cssClasses: '',
@@ -37,8 +37,18 @@ export default class RLDD extends React.Component<RLDDProps, {}> {
       props.layout!,
       props.threshold!,
       props.dragDelay!,
-      this.handleDnDChange.bind(this)
+      this.handleLogicChange.bind(this)
     );
+  }
+
+  componentDidMount() {
+    this.logic.onDragBeginSignal.addListener(this.refresh);
+    this.logic.onDragEndSignal.addListener(this.refresh);
+  }
+
+  componentWillUnmount() {
+    this.logic.onDragBeginSignal.removeListener(this.refresh);
+    this.logic.onDragEndSignal.removeListener(this.refresh);
   }
 
   render() {
@@ -73,12 +83,16 @@ export default class RLDD extends React.Component<RLDDProps, {}> {
     );
   }
 
-  private handleDnDChange(id0: number, id1: number) {
+  private refresh = () => {
+    this.forceUpdate();
+  }
+
+  private handleLogicChange(id0: number, id1: number) {
     const items = this.props.items;
     const index0 = this.findItemIndexById(id0);
     const index1 = this.findItemIndexById(id1);
     let newItems = [];
-    if (index0 >= 0 && index1 >= 0) {
+    if (index0 >= 0 && index1 >= 0 && index0 !== index1) {
       newItems = this.logic.arrangeItems(this.props.items, index0, index1);
     } else {
       newItems = items;

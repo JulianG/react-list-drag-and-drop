@@ -58,33 +58,32 @@ export default class RLDDLogic {
   handleDragBegin(id: number, initialOffset: RLDDPoint) {
     this.draggedInitialOffset = initialOffset;
     this.draggedId = id;
-    this.onDragBeginSignal.dispatch(id);
     this.onChange(-1, -1);
+    this.onDragBeginSignal.dispatch(id);
   }
 
   handleMouseOver(id: number) {
     this.hoveredId = id;
     const d = this.draggedId;
     const h = this.hoveredId;
-    this.onMouseOverSignal.dispatch(id);
     if (d >= 0 && h >= 0) {
       this.onChange(d, h);
     } else {
       this.onChange(-1, -1);
     }
+    this.onMouseOverSignal.dispatch(id);
   }
 
   handleMouseMove(id: number, offset: RLDDPoint) {
     this.offset = offset;
     this.onMouseMoveSignal.dispatch(id, offset);
-    // this.onChange(-1, -1);
   }
 
   handleDragEnd() {
     this.draggedId = -1;
     this.hoveredId = -1;
-    this.onDragEndSignal.dispatch();
     this.onChange(this.draggedId, this.hoveredId);
+    this.onDragEndSignal.dispatch();
   }
 
   arrangeItems<T>(items: Array<T>, index0: number, index1: number): Array<T> {

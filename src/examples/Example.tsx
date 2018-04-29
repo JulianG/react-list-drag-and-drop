@@ -15,7 +15,7 @@ export interface ExampleState {
   items: Item[];
 }
 
-export default class Example extends React.Component<{}, ExampleState> {
+export default class Example extends React.PureComponent<{}, ExampleState> {
   constructor(props: {}) {
     super(props);
     this.state = { items: bananas.bananas };
