@@ -18,7 +18,7 @@ export default class Signal {
     }
   }
 
-  public raise(...args: any[]) {
+  public dispatch(...args: any[]) {
     this.listeners.forEach(listener => {
       listener(...args);
     });

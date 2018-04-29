@@ -9,7 +9,10 @@ export type RLDDLayout = 'vertical' | 'horizontal' | 'grid';
 
 export default class RLDDLogic {
 
+  public onDragBeginSignal: Signal = new Signal();
+  public onMouseOverSignal: Signal = new Signal();
   public onMouseMoveSignal: Signal = new Signal();
+  public onDragEndSignal: Signal = new Signal();
 
   private draggedId: number = -1;
   private hoveredId: number = -1;
@@ -49,17 +52,13 @@ export default class RLDDLogic {
     private mode: RLDDLayout,
     private threshold: number,
     private dragDelay: number,
-    private onChange: (id: number, target: number) => void,
-    private onDragBegin: (id: number) => void,
-    private onMouseOver: (id: number) => void,
-    public onMouseMove: (id: number, offset: RLDDPoint) => void,
-    private onDragEnd: () => void
+    private onChange: (id: number, target: number) => void
   ) { }
 
   handleDragBegin(id: number, initialOffset: RLDDPoint) {
     this.draggedInitialOffset = initialOffset;
     this.draggedId = id;
-    this.onDragBegin(id);
+    this.onDragBeginSignal.dispatch(id);
     this.onChange(-1, -1);
   }
 
@@ -67,7 +66,7 @@ export default class RLDDLogic {
     this.hoveredId = id;
     const d = this.draggedId;
     const h = this.hoveredId;
-    this.onMouseOver(id);
+    this.onMouseOverSignal.dispatch(id);
     if (d >= 0 && h >= 0) {
       this.onChange(d, h);
     } else {
@@ -77,15 +76,14 @@ export default class RLDDLogic {
 
   handleMouseMove(id: number, offset: RLDDPoint) {
     this.offset = offset;
-    this.onMouseMove(id, offset);
-    this.onMouseMoveSignal.raise(id, offset);
+    this.onMouseMoveSignal.dispatch(id, offset);
     // this.onChange(-1, -1);
   }
 
   handleDragEnd() {
     this.draggedId = -1;
     this.hoveredId = -1;
-    this.onDragEnd();
+    this.onDragEndSignal.dispatch();
     this.onChange(this.draggedId, this.hoveredId);
   }
 

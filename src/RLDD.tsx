@@ -37,11 +37,7 @@ export default class RLDD extends React.Component<RLDDProps, {}> {
       props.layout!,
       props.threshold!,
       props.dragDelay!,
-      this.handleDnDChange.bind(this),
-      () => console.log('onDragBegin'),
-      () => console.log('onMouseOver'),
-      this.handleMouseMove.bind(this),
-      () => console.log('onDragEnd')
+      this.handleDnDChange.bind(this)
     );
   }
 
@@ -77,11 +73,6 @@ export default class RLDD extends React.Component<RLDDProps, {}> {
     );
   }
 
-  private handleMouseMove() {
-    // console.log('handleMouseMove');
-    // this.props.onChange(this.props.items, false);
-  }
-
   private handleDnDChange(id0: number, id1: number) {
     const items = this.props.items;
     const index0 = this.findItemIndexById(id0);
@@ -93,7 +84,6 @@ export default class RLDD extends React.Component<RLDDProps, {}> {
       newItems = items;
     }
     this.props.onChange(newItems, newItems !== items);
-
   }
 
   private findItemIndexById(id: number): number {
