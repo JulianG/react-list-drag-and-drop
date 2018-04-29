@@ -11,11 +11,15 @@ class RLDDFloatingItemComponent extends React.Component<RLDDFloatingItemProps, {
 
   constructor(props: RLDDFloatingItemProps) {
     super(props);
-
-    this.props.logic.onMouseMoveSignal.addListener((id: number, offset: {}) => {
-      this.forceUpdate();
-    });
   }
+
+  componentDidMount() {
+    this.props.logic.onMouseMoveSignal.addListener(this.refresh);
+  }
+  componentWillUnmount() {
+    this.props.logic.onMouseMoveSignal.removeListener(this.refresh);
+  }
+
   render() {
     const logic = this.props.logic;
     const offset = logic.getOffset();
@@ -37,6 +41,11 @@ class RLDDFloatingItemComponent extends React.Component<RLDDFloatingItemProps, {
       return undefined;
     }
   }
+
+  private refresh = () => {
+    this.forceUpdate();
+  }
+
 }
 
 export default RLDDFloatingItemComponent;

@@ -54,7 +54,6 @@ export default class Example extends React.Component<{}, ExampleState> {
   }
 
   private handleRLDDChange = (reorderedItems: Array<Item>) => {
-    console.log(`handleRLDDChange ${Math.random()}`);
     this.setState({ items: reorderedItems });
   }
 }
