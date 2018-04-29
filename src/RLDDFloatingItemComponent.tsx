@@ -7,7 +7,7 @@ export interface RLDDFloatingItemProps {
   logic: RLDDLogic;
 }
 
-class RLDDFloatingItemComponent extends React.Component<RLDDFloatingItemProps, {}> {
+class RLDDFloatingItemComponent extends React.PureComponent<RLDDFloatingItemProps, {}> {
 
   constructor(props: RLDDFloatingItemProps) {
     super(props);
