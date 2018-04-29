@@ -16,7 +16,7 @@ export interface RLDDProps {
   dragDelay?: number;
   items: Array<RLDDItem>;
   itemRenderer(item: RLDDItem, index: number): JSX.Element;
-  onChange(items: Array<RLDDItem>, changed: boolean): void;
+  onChange(items: Array<RLDDItem>): void;
 }
 
 export default class RLDD extends React.Component<RLDDProps, {}> {
@@ -83,7 +83,7 @@ export default class RLDD extends React.Component<RLDDProps, {}> {
     } else {
       newItems = items;
     }
-    this.props.onChange(newItems, newItems !== items);
+    this.props.onChange(newItems);
   }
 
   private findItemIndexById(id: number): number {
