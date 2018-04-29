@@ -22,12 +22,12 @@ import RLDD from 'react-list-drag-and-drop/lib/RLDD';
       <div className="item">{item.title}</div>
     );
   }}
-  onChange={this.handleDnDContextChange}
+  onChange={this.handleRLDDChange}
 />
 ```
 Then you need to handle the onChange callback and call `setState` with the new list. Like this:
 ```javascript
-  private handleDnDContextChange(newItems) {
+  private handleRLDDChange(newItems) {
     this.setState({ items: newItems });
   }
 ```
