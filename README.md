@@ -1,5 +1,7 @@
 # React List Drag and Drop
 
+![React List Drag and Drop Example](https://i.imgur.com/TwGLUNf.gif "React List Drag and Drop Example")
+
 ## Installation
 
 ```
