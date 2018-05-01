@@ -8,8 +8,6 @@ export interface RLDDPoint {
 export interface RLDDLogicState {
   draggedId: number;
   hoveredId: number;
-  offsetX: number;
-  offsetY: number;
 }
 
 export type RLDDLayout = 'vertical' | 'horizontal' | 'grid';
@@ -52,9 +50,7 @@ export default class RLDDLogic {
   ) {
     this.state = {
       draggedId: -1,
-      hoveredId: -1,
-      offsetX: 0,
-      offsetY: 0
+      hoveredId: -1
     };
     this.draggedInitialOffset = { x: 0, y: 0 };
   }
@@ -81,8 +77,6 @@ export default class RLDDLogic {
   }
 
   handleMouseMove(id: number, offset: RLDDPoint) {
-    this.state.offsetX = offset.x;
-    this.state.offsetY = offset.y;
     this.onMouseMoveSignal.dispatch(id, offset);
   }
 

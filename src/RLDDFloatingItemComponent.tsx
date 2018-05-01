@@ -1,5 +1,5 @@
 import * as React from 'react';
-import RLDDLogic from './RLDDLogic';
+import RLDDLogic, { RLDDPoint } from './RLDDLogic';
 import './RLDDFloatingItem.css';
 
 export interface RLDDFloatingItemProps {
@@ -16,8 +16,7 @@ class RLDDFloatingItemComponent extends React.PureComponent<RLDDFloatingItemProp
 
   constructor(props: RLDDFloatingItemProps) {
     super(props);
-    const { offsetX, offsetY } = this.props.logic.getState();
-    this.state = { offsetX, offsetY };
+    this.state = { offsetX: 0, offsetY: 0 };
   }
 
   componentDidMount() {
@@ -27,9 +26,8 @@ class RLDDFloatingItemComponent extends React.PureComponent<RLDDFloatingItemProp
     this.props.logic.onMouseMoveSignal.removeListener(this.refresh);
   }
 
-  refresh = () => {
-    const { offsetX, offsetY } = this.props.logic.getState();
-    this.setState({ offsetX, offsetY });
+  refresh = (id: number, offset: RLDDPoint) => {
+    this.setState({ offsetX: offset.x, offsetY: offset.y });
   }
 
   render() {
