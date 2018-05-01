@@ -7,7 +7,7 @@ export interface RLDDFloatingItemProps {
   draggedId: number;
 }
 
-interface RLDDFloatingItemState {
+export interface RLDDFloatingItemState {
   offsetX: number;
   offsetY: number;
 }

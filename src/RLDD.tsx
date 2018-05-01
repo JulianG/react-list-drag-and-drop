@@ -19,7 +19,7 @@ export interface RLDDProps {
   onChange(items: Array<RLDDItem>): void;
 }
 
-interface RLDDState {
+export interface RLDDState {
   draggedId: number;
   hoveredId: number;
 }
