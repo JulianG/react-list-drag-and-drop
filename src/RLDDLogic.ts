@@ -43,7 +43,6 @@ export default class RLDDLogic {
   handleDragBegin(draggedId: number, initialOffset: RLDDPoint) {
 
     this.draggedInitialOffset = initialOffset;
-    console.log('RLDDLogic.handleDragBegin... ' + draggedId);
     this.onDragBeginSignal.dispatch(draggedId);
   }
 

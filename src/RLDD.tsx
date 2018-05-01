@@ -60,7 +60,7 @@ export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
   }
 
   render() {
-    console.log('RLDD.render');
+    // console.log('RLDD.render');
     const cssClasses = this.props.cssClasses || '';
     const style = this.props.inlineStyle || {};
     const items = this.props.items;
