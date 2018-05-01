@@ -30,7 +30,7 @@ export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps
     this.state = { isDragging: false };
     this.mouseOverPending = false;
     this.initialOffset = { x: 0, y: 0 };
-    //
+    
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
@@ -83,7 +83,7 @@ export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps
     this.mouseDownTimestamp = new Date().getTime();
     this.initialOffset = this.getOffset(e);
     e.preventDefault();
-    //
+    
     this.addDocumentListeners();
   }
 

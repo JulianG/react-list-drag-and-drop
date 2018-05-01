@@ -5,11 +5,6 @@ export interface RLDDPoint {
   y: number;
 }
 
-export interface RLDDLogicState {
-  draggedId: number;
-  hoveredId: number;
-}
-
 export type RLDDLayout = 'vertical' | 'horizontal' | 'grid';
 
 export default class RLDDLogic {
@@ -19,15 +14,10 @@ export default class RLDDLogic {
   public onMouseMoveSignal: Signal = new Signal();
   public onDragEndSignal: Signal = new Signal();
 
-  private state: RLDDLogicState;
   private draggedInitialOffset: RLDDPoint;
 
   getMode(): RLDDLayout {
     return this.mode;
-  }
-
-  getState(): RLDDLogicState {
-    return this.state;
   }
 
   getDraggedInitialOffset(): RLDDPoint {
@@ -45,35 +35,20 @@ export default class RLDDLogic {
   constructor(
     private mode: RLDDLayout,
     private threshold: number,
-    private dragDelay: number,
-    private onChange: (id: number, target: number) => void
+    private dragDelay: number
   ) {
-    this.state = {
-      draggedId: -1,
-      hoveredId: -1
-    };
     this.draggedInitialOffset = { x: 0, y: 0 };
   }
 
-  handleDragBegin(id: number, initialOffset: RLDDPoint) {
+  handleDragBegin(draggedId: number, initialOffset: RLDDPoint) {
 
     this.draggedInitialOffset = initialOffset;
-    this.state.draggedId = id;
-    this.onChange(-1, -1);
-    console.log('RLDDLogic.handleDragBegin... ' + id);
-    this.onDragBeginSignal.dispatch(id);
+    console.log('RLDDLogic.handleDragBegin... ' + draggedId);
+    this.onDragBeginSignal.dispatch(draggedId);
   }
 
-  handleMouseOver(id: number) {
-    this.state.hoveredId = id;
-    const d = this.state.draggedId;
-    const h = this.state.hoveredId;
-    if (d >= 0 && h >= 0) {
-      this.onChange(d, h);
-    } else {
-      this.onChange(-1, -1);
-    }
-    this.onMouseOverSignal.dispatch(id);
+  handleMouseOver(hoveredId: number) {
+    this.onMouseOverSignal.dispatch(hoveredId);
   }
 
   handleMouseMove(id: number, offset: RLDDPoint) {
@@ -81,9 +56,6 @@ export default class RLDDLogic {
   }
 
   handleDragEnd() {
-    this.state.draggedId = -1;
-    this.state.hoveredId = -1;
-    this.onChange(this.state.draggedId, this.state.hoveredId);
     this.onDragEndSignal.dispatch();
   }
 
