@@ -1,16 +1,23 @@
 import * as React from 'react';
 import RLDDLogic from './RLDDLogic';
-
 import './RLDDFloatingItem.css';
 
 export interface RLDDFloatingItemProps {
   logic: RLDDLogic;
+  draggedId: number;
 }
 
-class RLDDFloatingItemComponent extends React.PureComponent<RLDDFloatingItemProps, {}> {
+interface RLDDFloatingItemState {
+  offsetX: number;
+  offsetY: number;
+}
+
+class RLDDFloatingItemComponent extends React.PureComponent<RLDDFloatingItemProps, RLDDFloatingItemState> {
 
   constructor(props: RLDDFloatingItemProps) {
     super(props);
+    const { offsetX, offsetY } = this.props.logic.getState();
+    this.state = { offsetX, offsetY };
   }
 
   componentDidMount() {
@@ -20,18 +27,22 @@ class RLDDFloatingItemComponent extends React.PureComponent<RLDDFloatingItemProp
     this.props.logic.onMouseMoveSignal.removeListener(this.refresh);
   }
 
+  refresh = () => {
+    const { offsetX, offsetY } = this.props.logic.getState();
+    this.setState({ offsetX, offsetY });
+  }
+
   render() {
-    const logic = this.props.logic;
-    const offset = logic.getOffset();
-    if (this.props.logic.getDraggedId() >= -1) {
+    console.log('RLDDFloatingItemComponent.render');
+    if (this.props.draggedId >= -1) {
       return (
         <div
           className="dl-item floating"
           style={{
             pointerEvents: 'none',
             position: 'absolute',
-            left: offset.x || 0,
-            top: offset.y || 0
+            left: this.state.offsetX || 0,
+            top: this.state.offsetY || 0
           }}
         >
           {this.props.children}
@@ -40,10 +51,6 @@ class RLDDFloatingItemComponent extends React.PureComponent<RLDDFloatingItemProp
     } else {
       return undefined;
     }
-  }
-
-  private refresh = () => {
-    this.forceUpdate();
   }
 
 }

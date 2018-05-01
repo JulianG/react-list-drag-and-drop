@@ -19,7 +19,7 @@ interface BoxRect {
   top: number;
 }
 
-export default class RLDDItemComponent extends React.Component<RLDDItemProps, RLDDItemState> {
+export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps, RLDDItemState> {
   private isDown: boolean = false;
   private mouseDownTimestamp: number = 0;
   private initialOffset: { x: number; y: number };
@@ -47,6 +47,7 @@ export default class RLDDItemComponent extends React.Component<RLDDItemProps, RL
   }
 
   render() {
+    console.log('RLDDItemComponent.render');
     const dragged = this.props.dragged ? 'dragged' : '';
     const hovered = this.props.hovered ? 'hovered' : '';
     const activity = this.props.activity ? 'activity' : '';

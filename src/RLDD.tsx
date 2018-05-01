@@ -19,7 +19,12 @@ export interface RLDDProps {
   onChange(items: Array<RLDDItem>): void;
 }
 
-export default class RLDD extends React.PureComponent<RLDDProps, {}> {
+interface RLDDState {
+  draggedId: number;
+  hoveredId: number;
+}
+
+export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
 
   static defaultProps: Partial<RLDDProps> = {
     cssClasses: '',
@@ -33,12 +38,15 @@ export default class RLDD extends React.PureComponent<RLDDProps, {}> {
 
   constructor(props: RLDDProps) {
     super(props);
+
     this.logic = new RLDDLogic(
       props.layout!,
       props.threshold!,
       props.dragDelay!,
       this.handleLogicChange.bind(this)
     );
+    const { draggedId, hoveredId } = this.logic.getState();
+    this.state = { draggedId, hoveredId };
   }
 
   componentDidMount() {
@@ -52,12 +60,13 @@ export default class RLDD extends React.PureComponent<RLDDProps, {}> {
   }
 
   render() {
+    console.log('RLDD.render');
     const cssClasses = this.props.cssClasses || '';
     const style = this.props.inlineStyle || {};
     const items = this.props.items;
     const manager = this.logic;
     const itemRenderer = this.props.itemRenderer;
-    const draggedItemId = this.logic.getDraggedId();
+    const draggedItemId = this.state.draggedId;
     const draggedItem = this.findItemIndexById(draggedItemId);
 
     return (
@@ -68,15 +77,18 @@ export default class RLDD extends React.PureComponent<RLDDProps, {}> {
               key={i}
               logic={manager}
               itemId={item.id}
-              activity={manager.getDraggedId() >= 0}
-              dragged={manager.getDraggedId() === item.id}
-              hovered={manager.getHoveredId() === item.id}
+              activity={draggedItemId >= 0}
+              dragged={draggedItemId === item.id}
+              hovered={draggedItemId === item.id}
             >
               {itemRenderer(item, i)}
             </RLDDItemComponent>
           );
         })}
-        <RLDDFloatingItemComponent logic={manager}>
+        <RLDDFloatingItemComponent
+          logic={this.logic}
+          draggedId={draggedItemId}
+        >
           {draggedItem >= 0 && itemRenderer(items[draggedItem], draggedItem)}
         </RLDDFloatingItemComponent>
       </div>
@@ -84,20 +96,20 @@ export default class RLDD extends React.PureComponent<RLDDProps, {}> {
   }
 
   private refresh = () => {
-    this.forceUpdate();
+    const ls = this.logic.getState();
+    const { draggedId, hoveredId } = ls;
+    console.log(`RLDD.refresh: this.state.draggedId: ${this.state.draggedId}, ls.draggedId: ${ls.draggedId}`);
+    this.setState( { draggedId, hoveredId } );
   }
 
   private handleLogicChange(id0: number, id1: number) {
-    const items = this.props.items;
     const index0 = this.findItemIndexById(id0);
     const index1 = this.findItemIndexById(id1);
-    let newItems = [];
+
     if (index0 >= 0 && index1 >= 0 && index0 !== index1) {
-      newItems = this.logic.arrangeItems(this.props.items, index0, index1);
-    } else {
-      newItems = items;
+      const newItems = this.logic.arrangeItems(this.props.items, index0, index1);
+      this.props.onChange(newItems);
     }
-    this.props.onChange(newItems);
   }
 
   private findItemIndexById(id: number): number {
