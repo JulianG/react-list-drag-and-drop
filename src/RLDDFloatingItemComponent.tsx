@@ -39,8 +39,8 @@ class RLDDFloatingItemComponent extends React.PureComponent<RLDDFloatingItemProp
           style={{
             pointerEvents: 'none',
             position: 'absolute',
-            left: this.state.offsetX || 0,
-            top: this.state.offsetY || 0
+            left: this.state.offsetX,
+            top: this.state.offsetY
           }}
         >
           {this.props.children}

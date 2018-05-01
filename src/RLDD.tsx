@@ -38,12 +38,7 @@ export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
 
   constructor(props: RLDDProps) {
     super(props);
-
-    this.logic = new RLDDLogic(
-      props.layout!,
-      props.threshold!,
-      props.dragDelay!
-    );
+    this.logic = new RLDDLogic(props.layout!, props.threshold!, props.dragDelay!);
     this.state = { draggedId: -1, hoveredId: -1 };
   }
 
@@ -64,10 +59,9 @@ export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
     const cssClasses = this.props.cssClasses || '';
     const style = this.props.inlineStyle || {};
     const items = this.props.items;
-    const manager = this.logic;
     const itemRenderer = this.props.itemRenderer;
     const draggedItemId = this.state.draggedId;
-    const draggedItem = this.findItemIndexById(draggedItemId);
+    const draggedItemIndex = this.findItemIndexById(draggedItemId);
 
     return (
       <div className={cssClasses} style={style}>
@@ -75,7 +69,7 @@ export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
           return (
             <RLDDItemComponent
               key={i}
-              logic={manager}
+              logic={this.logic}
               itemId={item.id}
               activity={draggedItemId >= 0}
               dragged={draggedItemId === item.id}
@@ -89,7 +83,7 @@ export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
           logic={this.logic}
           draggedId={draggedItemId}
         >
-          {draggedItem >= 0 && itemRenderer(items[draggedItem], draggedItem)}
+          {draggedItemIndex >= 0 && itemRenderer(items[draggedItemIndex], draggedItemIndex)}
         </RLDDFloatingItemComponent>
       </div>
     );
