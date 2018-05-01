@@ -31,7 +31,7 @@ class RLDDFloatingItemComponent extends React.PureComponent<RLDDFloatingItemProp
   }
 
   render() {
-    console.log('RLDDFloatingItemComponent.render');
+    // console.log('RLDDFloatingItemComponent.render');
     if (this.props.draggedId >= -1) {
       return (
         <div

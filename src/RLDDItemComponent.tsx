@@ -47,7 +47,7 @@ export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps
   }
 
   render() {
-    console.log('RLDDItemComponent.render');
+    // console.log('RLDDItemComponent.render');
     const dragged = this.props.dragged ? 'dragged' : '';
     const hovered = this.props.hovered ? 'hovered' : '';
     const activity = this.props.activity ? 'activity' : '';
