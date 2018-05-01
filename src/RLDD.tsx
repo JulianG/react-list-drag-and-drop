@@ -42,21 +42,21 @@ export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
     this.logic = new RLDDLogic(
       props.layout!,
       props.threshold!,
-      props.dragDelay!,
-      this.handleLogicChange.bind(this)
+      props.dragDelay!
     );
-    const { draggedId, hoveredId } = this.logic.getState();
-    this.state = { draggedId, hoveredId };
+    this.state = { draggedId: -1, hoveredId: -1 };
   }
 
   componentDidMount() {
-    this.logic.onDragBeginSignal.addListener(this.refresh);
-    this.logic.onDragEndSignal.addListener(this.refresh);
+    this.logic.onDragBeginSignal.addListener(this.handleDragBegin);
+    this.logic.onMouseOverSignal.addListener(this.handleMouseOver);
+    this.logic.onDragEndSignal.addListener(this.handleDragEnd);
   }
 
   componentWillUnmount() {
-    this.logic.onDragBeginSignal.removeListener(this.refresh);
-    this.logic.onDragEndSignal.removeListener(this.refresh);
+    this.logic.onDragBeginSignal.removeListener(this.handleDragBegin);
+    this.logic.onMouseOverSignal.removeListener(this.handleMouseOver);
+    this.logic.onDragEndSignal.removeListener(this.handleDragEnd);
   }
 
   render() {
@@ -95,21 +95,39 @@ export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
     );
   }
 
-  private refresh = () => {
-    const ls = this.logic.getState();
-    const { draggedId, hoveredId } = ls;
-    console.log(`RLDD.refresh: this.state.draggedId: ${this.state.draggedId}, ls.draggedId: ${ls.draggedId}`);
-    this.setState( { draggedId, hoveredId } );
+  private handleDragBegin = (draggedId: number) => {
+    this.setState({ draggedId });
   }
 
-  private handleLogicChange(id0: number, id1: number) {
-    const index0 = this.findItemIndexById(id0);
-    const index1 = this.findItemIndexById(id1);
+  private handleMouseOver = (hoveredId: number) => {
+    if (this.state.draggedId >= 0) {
+      this.setState({ hoveredId }, () => {
+        const newItems = this.getNewItems();
+        if (newItems) {
+          this.props.onChange(newItems);
+        }
+      });
+    }
+  }
+
+  private handleDragEnd = () => {
+    const newItems = this.getNewItems();
+    this.setState({ draggedId: -1, hoveredId: -1 }, () => {
+      if (newItems) {
+        this.props.onChange(newItems);
+      }
+    });
+  }
+
+  private getNewItems(): RLDDItem[] | undefined {
+    const index0 = this.findItemIndexById(this.state.draggedId);
+    const index1 = this.findItemIndexById(this.state.hoveredId);
 
     if (index0 >= 0 && index1 >= 0 && index0 !== index1) {
       const newItems = this.logic.arrangeItems(this.props.items, index0, index1);
-      this.props.onChange(newItems);
+      return newItems;
     }
+    return;
   }
 
   private findItemIndexById(id: number): number {
