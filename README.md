@@ -1,6 +1,6 @@
 # React List Drag and Drop
 
-[![Build Status](https://travis-ci.org/JulianG/react-list-drag-and-drop.svg?branch=master)](https://travis-ci.org/JulianG/react-list-drag-and-drop)
+[![Build Status](https://travis-ci.org/JulianG/react-list-drag-and-drop.svg?branch=master&x)](https://travis-ci.org/JulianG/react-list-drag-and-drop)
 
 ![React List Drag and Drop Example](https://i.imgur.com/TwGLUNf.gif "React List Drag and Drop Example")
 
