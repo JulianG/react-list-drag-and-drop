@@ -22,6 +22,7 @@ export default class Example extends React.PureComponent<{}, ExampleState> {
   }
 
   render() {
+    console.log('Example.render');
     const items = this.state.items;
     return (
       <div>
@@ -54,6 +55,7 @@ export default class Example extends React.PureComponent<{}, ExampleState> {
   }
 
   private handleRLDDChange = (reorderedItems: Array<Item>) => {
+    console.log('Example.handleRLDDChange');
     this.setState({ items: reorderedItems });
   }
 }

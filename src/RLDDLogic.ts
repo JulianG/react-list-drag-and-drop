@@ -5,6 +5,13 @@ export interface RLDDPoint {
   y: number;
 }
 
+export interface RLDDLogicState {
+  draggedId: number;
+  hoveredId: number;
+  offsetX: number;
+  offsetY: number;
+}
+
 export type RLDDLayout = 'vertical' | 'horizontal' | 'grid';
 
 export default class RLDDLogic {
@@ -14,26 +21,15 @@ export default class RLDDLogic {
   public onMouseMoveSignal: Signal = new Signal();
   public onDragEndSignal: Signal = new Signal();
 
-  private draggedId: number = -1;
-  private hoveredId: number = -1;
-
-  private draggedInitialOffset: RLDDPoint = { x: 0, y: 0 };
-
-  private offset: RLDDPoint = { x: 0, y: 0 };
+  private state: RLDDLogicState;
+  private draggedInitialOffset: RLDDPoint;
 
   getMode(): RLDDLayout {
     return this.mode;
   }
-  getDraggedId(): number {
-    return this.draggedId;
-  }
 
-  getHoveredId(): number {
-    return this.hoveredId;
-  }
-
-  getOffset(): RLDDPoint {
-    return this.offset;
+  getState(): RLDDLogicState {
+    return this.state;
   }
 
   getDraggedInitialOffset(): RLDDPoint {
@@ -53,19 +49,29 @@ export default class RLDDLogic {
     private threshold: number,
     private dragDelay: number,
     private onChange: (id: number, target: number) => void
-  ) { }
+  ) {
+    this.state = {
+      draggedId: -1,
+      hoveredId: -1,
+      offsetX: 0,
+      offsetY: 0
+    };
+    this.draggedInitialOffset = { x: 0, y: 0 };
+  }
 
   handleDragBegin(id: number, initialOffset: RLDDPoint) {
+
     this.draggedInitialOffset = initialOffset;
-    this.draggedId = id;
+    this.state.draggedId = id;
     this.onChange(-1, -1);
+    console.log('RLDDLogic.handleDragBegin... ' + id);
     this.onDragBeginSignal.dispatch(id);
   }
 
   handleMouseOver(id: number) {
-    this.hoveredId = id;
-    const d = this.draggedId;
-    const h = this.hoveredId;
+    this.state.hoveredId = id;
+    const d = this.state.draggedId;
+    const h = this.state.hoveredId;
     if (d >= 0 && h >= 0) {
       this.onChange(d, h);
     } else {
@@ -75,14 +81,15 @@ export default class RLDDLogic {
   }
 
   handleMouseMove(id: number, offset: RLDDPoint) {
-    this.offset = offset;
+    this.state.offsetX = offset.x;
+    this.state.offsetY = offset.y;
     this.onMouseMoveSignal.dispatch(id, offset);
   }
 
   handleDragEnd() {
-    this.draggedId = -1;
-    this.hoveredId = -1;
-    this.onChange(this.draggedId, this.hoveredId);
+    this.state.draggedId = -1;
+    this.state.hoveredId = -1;
+    this.onChange(this.state.draggedId, this.state.hoveredId);
     this.onDragEndSignal.dispatch();
   }
 
