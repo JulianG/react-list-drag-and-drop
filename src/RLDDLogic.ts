@@ -14,14 +14,8 @@ export default class RLDDLogic {
   public onMouseMoveSignal: Signal = new Signal();
   public onDragEndSignal: Signal = new Signal();
 
-  private draggedInitialOffset: RLDDPoint;
-
   getMode(): RLDDLayout {
     return this.mode;
-  }
-
-  getDraggedInitialOffset(): RLDDPoint {
-    return this.draggedInitialOffset;
   }
 
   getThreshold(): number {
@@ -37,12 +31,9 @@ export default class RLDDLogic {
     private threshold: number,
     private dragDelay: number
   ) {
-    this.draggedInitialOffset = { x: 0, y: 0 };
   }
 
-  handleDragBegin(draggedId: number, initialOffset: RLDDPoint) {
-
-    this.draggedInitialOffset = initialOffset;
+  handleDragBegin(draggedId: number) {
     this.onDragBeginSignal.dispatch(draggedId);
   }
 
