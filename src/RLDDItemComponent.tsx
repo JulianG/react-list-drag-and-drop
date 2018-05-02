@@ -98,7 +98,7 @@ export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps
     };
 
     if (this.state.isDragging === false && this.isDown) {
-      this.props.logic.handleDragBegin(this.props.itemId, this.initialOffset);
+      this.props.logic.handleDragBegin(this.props.itemId);
     }
     this.setState(Object.assign(this.state, { isDragging: this.isDown }));
 
@@ -149,12 +149,11 @@ export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps
   private dispatchMouseOverIfWithinLimit(offset: { x: number, y: number }) {
 
     const logic = this.props.logic;
-    const initialOffset = logic.getDraggedInitialOffset();
     const threshold = logic.getThreshold();
 
     const delta = {
-      x: offset.x - initialOffset.x,
-      y: offset.y - initialOffset.y
+      x: offset.x - this.initialOffset.x,
+      y: offset.y - this.initialOffset.y
     };
 
     const conditions = {
