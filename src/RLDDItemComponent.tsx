@@ -19,7 +19,7 @@ interface BoxRect {
   top: number;
 }
 
-export default class RLDDItemComponent extends React.Component<RLDDItemProps, RLDDItemState> {
+export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps, RLDDItemState> {
   private isDown: boolean = false;
   private mouseDownTimestamp: number = 0;
   private initialOffset: { x: number; y: number };
@@ -30,7 +30,7 @@ export default class RLDDItemComponent extends React.Component<RLDDItemProps, RL
     this.state = { isDragging: false };
     this.mouseOverPending = false;
     this.initialOffset = { x: 0, y: 0 };
-    //
+    
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
@@ -47,6 +47,7 @@ export default class RLDDItemComponent extends React.Component<RLDDItemProps, RL
   }
 
   render() {
+    // console.log('RLDDItemComponent.render');
     const dragged = this.props.dragged ? 'dragged' : '';
     const hovered = this.props.hovered ? 'hovered' : '';
     const activity = this.props.activity ? 'activity' : '';
@@ -82,7 +83,7 @@ export default class RLDDItemComponent extends React.Component<RLDDItemProps, RL
     this.mouseDownTimestamp = new Date().getTime();
     this.initialOffset = this.getOffset(e);
     e.preventDefault();
-    //
+    
     this.addDocumentListeners();
   }
 
@@ -97,7 +98,7 @@ export default class RLDDItemComponent extends React.Component<RLDDItemProps, RL
     };
 
     if (this.state.isDragging === false && this.isDown) {
-      this.props.logic.handleDragBegin(this.props.itemId, this.initialOffset);
+      this.props.logic.handleDragBegin(this.props.itemId);
     }
     this.setState(Object.assign(this.state, { isDragging: this.isDown }));
 
@@ -148,12 +149,11 @@ export default class RLDDItemComponent extends React.Component<RLDDItemProps, RL
   private dispatchMouseOverIfWithinLimit(offset: { x: number, y: number }) {
 
     const logic = this.props.logic;
-    const initialOffset = logic.getDraggedInitialOffset();
     const threshold = logic.getThreshold();
 
     const delta = {
-      x: offset.x - initialOffset.x,
-      y: offset.y - initialOffset.y
+      x: offset.x - this.initialOffset.x,
+      y: offset.y - this.initialOffset.y
     };
 
     const conditions = {

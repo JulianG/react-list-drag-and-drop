@@ -19,7 +19,12 @@ export interface RLDDProps {
   onChange(items: Array<RLDDItem>): void;
 }
 
-export default class RLDD extends React.PureComponent<RLDDProps, {}> {
+export interface RLDDState {
+  draggedId: number;
+  hoveredId: number;
+}
+
+export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
 
   static defaultProps: Partial<RLDDProps> = {
     cssClasses: '',
@@ -33,32 +38,30 @@ export default class RLDD extends React.PureComponent<RLDDProps, {}> {
 
   constructor(props: RLDDProps) {
     super(props);
-    this.logic = new RLDDLogic(
-      props.layout!,
-      props.threshold!,
-      props.dragDelay!,
-      this.handleLogicChange.bind(this)
-    );
+    this.logic = new RLDDLogic(props.layout!, props.threshold!, props.dragDelay!);
+    this.state = { draggedId: -1, hoveredId: -1 };
   }
 
   componentDidMount() {
-    this.logic.onDragBeginSignal.addListener(this.refresh);
-    this.logic.onDragEndSignal.addListener(this.refresh);
+    this.logic.onDragBeginSignal.addListener(this.handleDragBegin);
+    this.logic.onMouseOverSignal.addListener(this.handleMouseOver);
+    this.logic.onDragEndSignal.addListener(this.handleDragEnd);
   }
 
   componentWillUnmount() {
-    this.logic.onDragBeginSignal.removeListener(this.refresh);
-    this.logic.onDragEndSignal.removeListener(this.refresh);
+    this.logic.onDragBeginSignal.removeListener(this.handleDragBegin);
+    this.logic.onMouseOverSignal.removeListener(this.handleMouseOver);
+    this.logic.onDragEndSignal.removeListener(this.handleDragEnd);
   }
 
   render() {
+    // console.log('RLDD.render');
     const cssClasses = this.props.cssClasses || '';
     const style = this.props.inlineStyle || {};
     const items = this.props.items;
-    const manager = this.logic;
     const itemRenderer = this.props.itemRenderer;
-    const draggedItemId = this.logic.getDraggedId();
-    const draggedItem = this.findItemIndexById(draggedItemId);
+    const draggedItemId = this.state.draggedId;
+    const draggedItemIndex = this.findItemIndexById(draggedItemId);
 
     return (
       <div className={cssClasses} style={style}>
@@ -66,38 +69,59 @@ export default class RLDD extends React.PureComponent<RLDDProps, {}> {
           return (
             <RLDDItemComponent
               key={i}
-              logic={manager}
+              logic={this.logic}
               itemId={item.id}
-              activity={manager.getDraggedId() >= 0}
-              dragged={manager.getDraggedId() === item.id}
-              hovered={manager.getHoveredId() === item.id}
+              activity={draggedItemId >= 0}
+              dragged={draggedItemId === item.id}
+              hovered={draggedItemId === item.id}
             >
               {itemRenderer(item, i)}
             </RLDDItemComponent>
           );
         })}
-        <RLDDFloatingItemComponent logic={manager}>
-          {draggedItem >= 0 && itemRenderer(items[draggedItem], draggedItem)}
+        <RLDDFloatingItemComponent
+          logic={this.logic}
+          draggedId={draggedItemId}
+        >
+          {draggedItemIndex >= 0 && itemRenderer(items[draggedItemIndex], draggedItemIndex)}
         </RLDDFloatingItemComponent>
       </div>
     );
   }
 
-  private refresh = () => {
-    this.forceUpdate();
+  private handleDragBegin = (draggedId: number) => {
+    this.setState({ draggedId });
   }
 
-  private handleLogicChange(id0: number, id1: number) {
-    const items = this.props.items;
-    const index0 = this.findItemIndexById(id0);
-    const index1 = this.findItemIndexById(id1);
-    let newItems = [];
-    if (index0 >= 0 && index1 >= 0 && index0 !== index1) {
-      newItems = this.logic.arrangeItems(this.props.items, index0, index1);
-    } else {
-      newItems = items;
+  private handleMouseOver = (hoveredId: number) => {
+    if (this.state.draggedId >= 0) {
+      this.setState({ hoveredId }, () => {
+        const newItems = this.getNewItems();
+        if (newItems) {
+          this.props.onChange(newItems);
+        }
+      });
     }
-    this.props.onChange(newItems);
+  }
+
+  private handleDragEnd = () => {
+    const newItems = this.getNewItems();
+    this.setState({ draggedId: -1, hoveredId: -1 }, () => {
+      if (newItems) {
+        this.props.onChange(newItems);
+      }
+    });
+  }
+
+  private getNewItems(): RLDDItem[] | undefined {
+    const index0 = this.findItemIndexById(this.state.draggedId);
+    const index1 = this.findItemIndexById(this.state.hoveredId);
+
+    if (index0 >= 0 && index1 >= 0 && index0 !== index1) {
+      const newItems = this.logic.arrangeItems(this.props.items, index0, index1);
+      return newItems;
+    }
+    return;
   }
 
   private findItemIndexById(id: number): number {
