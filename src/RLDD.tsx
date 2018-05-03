@@ -55,8 +55,15 @@ export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
     this.logic.onDragEndSignal.removeListener(this.handleDragEnd);
   }
 
+  getStateString(props: RLDDProps, state: RLDDState): string {
+    return `draggedId: ${state.draggedId}
+hoveredId: ${state.hoveredId}
+items: ${props.items.map(item => item.id).toString()}`;
+  }
+
   render() {
-    // console.log('RLDD.render');
+    // console.log(`RLDD.render`);
+
     const cssClasses = this.props.cssClasses + ' dl-list';
     const style = this.computeStyle();
     const items = this.props.items;
@@ -114,12 +121,7 @@ export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
   }
 
   private handleDragEnd = () => {
-    const newItems = this.getNewItems();
-    this.setState({ draggedId: -1, hoveredId: -1 }, () => {
-      if (newItems) {
-        this.props.onChange(newItems);
-      }
-    });
+    this.setState({ draggedId: -1, hoveredId: -1 });
   }
 
   private getNewItems(): RLDDItem[] | undefined {
