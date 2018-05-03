@@ -62,8 +62,7 @@ items: ${props.items.map(item => item.id).toString()}`;
   }
 
   render() {
-    // console.log(`RLDD.render`);
-
+    // console.log('RLDD.render');
     const cssClasses = this.props.cssClasses + ' dl-list';
     const style = this.computeStyle();
     const items = this.props.items;
