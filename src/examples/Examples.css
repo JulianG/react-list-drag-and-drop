@@ -42,6 +42,7 @@ body {
 .item .small {
   font-size: 66%;
   text-align: right;
+  white-space: nowrap;
 }
 
 .dragged .item {
@@ -51,4 +52,32 @@ body {
 .floating .item {
   background-color: #ffffff;
   box-shadow: 0 0.2rem 2rem #666666;
+}
+
+/* ******************** */
+
+.vertical .item {
+  display: flex;
+}
+
+.vertical .item .icon {
+  font-size: 2.5rem;
+  margin-right: 1rem;
+}
+
+.vertical .item .details {
+  flex-grow: 2;
+}
+
+.horizontal .item {
+  width: 7rem;
+  text-align: center;
+}
+
+.horizontal .item .icon {
+  font-size: 5rem;
+}
+
+.horizontal .item .small {
+  text-align: center;
 }
