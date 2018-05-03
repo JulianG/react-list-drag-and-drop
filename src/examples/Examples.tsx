@@ -12,8 +12,8 @@ export default class Examples extends React.PureComponent<{}, {}> {
       <div>
         <h1>react-list-drag-and-drop</h1>
         <div className="examples">
-          <VerticalExample />
           <HorizontalExample />
+          <VerticalExample />
         </div>
       </div>
     );

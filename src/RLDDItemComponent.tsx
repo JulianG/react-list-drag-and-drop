@@ -17,6 +17,8 @@ export interface RLDDItemState {
 interface BoxRect {
   left: number;
   top: number;
+  width: number;
+  height: number;
 }
 
 export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps, RLDDItemState> {
@@ -30,7 +32,7 @@ export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps
     this.state = { isDragging: false };
     this.mouseOverPending = false;
     this.initialOffset = { x: 0, y: 0 };
-    
+
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
@@ -83,7 +85,7 @@ export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps
     this.mouseDownTimestamp = new Date().getTime();
     this.initialOffset = this.getOffset(e);
     e.preventDefault();
-    
+
     this.addDocumentListeners();
   }
 
@@ -98,13 +100,15 @@ export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps
     };
 
     if (this.state.isDragging === false && this.isDown) {
-      this.props.logic.handleDragBegin(this.props.itemId);
+
+      const box = this.getBox();
+      console.log(`${box.width},${box.height}`);
+
+      this.props.logic.handleDragBegin(this.props.itemId, box.width, box.height);
     }
     this.setState(Object.assign(this.state, { isDragging: this.isDown }));
 
-    if (this.isDown) {
-      this.props.logic.handleMouseMove(this.props.itemId, offset);
-    }
+    this.props.logic.handleMouseMove(this.props.itemId, offset);
   }
 
   private getTimeSinceMouseDown(): number {
@@ -150,6 +154,7 @@ export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps
 
     const logic = this.props.logic;
     const threshold = logic.getThreshold();
+    const mode = logic.getMode();
 
     const delta = {
       x: offset.x - this.initialOffset.x,
@@ -159,11 +164,11 @@ export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps
     const conditions = {
       'vertical': (): boolean => (delta.y * delta.y < threshold * threshold),
       'horizontal': (): boolean => (delta.x * delta.x < threshold * threshold),
-      'grid': (): boolean => (delta.x * delta.x + delta.y * delta.y < threshold * threshold)
+      'grid': (): boolean => (delta.x * delta.x + delta.y * delta.y < 2 * threshold * threshold)
     };
 
-    if (conditions[logic.getMode()]()) {
-      this.props.logic.handleMouseOver(this.props.itemId);
+    if (conditions[mode]()) {
+      logic.handleMouseOver(this.props.itemId);
       this.mouseOverPending = false;
     }
   }

@@ -33,8 +33,8 @@ export default class RLDDLogic {
   ) {
   }
 
-  handleDragBegin(draggedId: number) {
-    this.onDragBeginSignal.dispatch(draggedId);
+  handleDragBegin(draggedId: number, width: number, height: number) {
+    this.onDragBeginSignal.dispatch(draggedId, width, height);
   }
 
   handleMouseOver(hoveredId: number) {

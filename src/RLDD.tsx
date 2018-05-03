@@ -22,6 +22,7 @@ export interface RLDDProps {
 export interface RLDDState {
   draggedId: number;
   hoveredId: number;
+  draggedItemDimensions: { width: number, height: number };
 }
 
 export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
@@ -39,7 +40,7 @@ export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
   constructor(props: RLDDProps) {
     super(props);
     this.logic = new RLDDLogic(props.layout!, props.threshold!, props.dragDelay!);
-    this.state = { draggedId: -1, hoveredId: -1 };
+    this.state = { draggedId: -1, hoveredId: -1, draggedItemDimensions: { width: 0, height: 0 } };
   }
 
   componentDidMount() {
@@ -68,7 +69,7 @@ export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
         {items.map((item, i) => {
           return (
             <RLDDItemComponent
-              key={i}
+              key={item.id}
               logic={this.logic}
               itemId={item.id}
               activity={draggedItemId >= 0}
@@ -82,6 +83,8 @@ export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
         <RLDDFloatingItemComponent
           logic={this.logic}
           draggedId={draggedItemId}
+          width={this.state.draggedItemDimensions.width}
+          height={this.state.draggedItemDimensions.height}
         >
           {draggedItemIndex >= 0 && itemRenderer(items[draggedItemIndex], draggedItemIndex)}
         </RLDDFloatingItemComponent>
@@ -94,8 +97,9 @@ export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
     return Object.assign({ display }, this.props.inlineStyle || {});
   }
 
-  private handleDragBegin = (draggedId: number) => {
-    this.setState({ draggedId });
+  private handleDragBegin = (draggedId: number, width: number, height: number) => {
+    const draggedItemDimensions = { width, height };
+    this.setState({ draggedId, draggedItemDimensions });
   }
 
   private handleMouseOver = (hoveredId: number) => {

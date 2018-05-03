@@ -24,7 +24,7 @@ export default class VerticalExample extends React.PureComponent<{}, State> {
 		const items = this.state.items;
 		return (
 			<div className="example vertical">
-				<h2>Example 1: Draggable List of Bananas</h2>
+				<h2>Vertical Example: Draggable List of Bananas</h2>
 				<p>Drag and drop items to re-order the list.</p>
 				<RLDD
 					cssClasses="list-container"

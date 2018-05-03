@@ -6,11 +6,10 @@ body {
 }
 
 .examples {
-  display: flex;
-  
+  /* display: flex; */
 }
 .example {
-  background-color: #999999;
+  background-color: #aaaaaa;
   border-radius: 0.25rem;
   margin: 0px;
   padding: 0.5rem;
@@ -22,6 +21,7 @@ body {
   background-color: #eeeeee;
   border-radius: 0.25rem;
   margin-bottom: 0.2rem;
+  margin-right: 0.2rem;
   padding: 0.5rem;
   padding-left: 0.25rem;
   opacity: 1;
@@ -45,27 +45,10 @@ body {
 }
 
 .dragged .item {
-  opacity: 0.25;
+  opacity: 0.1;
 }
 
 .floating .item {
   background-color: #ffffff;
   box-shadow: 0 0.2rem 2rem #666666;
-}
-
-.dl-item.floating {
-  width: 85%;
-}
-
-/* ---- ---- ---- */
-.example.vertical {
-  width: 50%;
-}
-
-.example.horizontal {
-  width: 50%;
-}
-
-.example.horizontal .dl-item.floating {
-  width: 15%;
 }

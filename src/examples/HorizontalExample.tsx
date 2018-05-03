@@ -20,11 +20,11 @@ export default class HorizontalExample extends React.PureComponent<{}, State> {
 	}
 
 	render() {
-		// console.log('VerticalExample.render');
+		// console.log('HorizontalExample.render');
 		const items = this.state.items;
 		return (
 			<div className="example horizontal">
-				<h2>Example 1: Draggable List of Bananas</h2>
+				<h2>Horizontal Example: Draggable List of Bananas</h2>
 				<p>Drag and drop items to re-order the list.</p>
 				<RLDD
 					cssClasses="example-list-container"

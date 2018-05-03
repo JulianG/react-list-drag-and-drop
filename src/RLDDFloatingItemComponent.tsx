@@ -5,6 +5,8 @@ import './RLDDFloatingItem.css';
 export interface RLDDFloatingItemProps {
   logic: RLDDLogic;
   draggedId: number;
+  width: number;
+  height: number;
 }
 
 export interface RLDDFloatingItemState {
@@ -40,7 +42,9 @@ class RLDDFloatingItemComponent extends React.PureComponent<RLDDFloatingItemProp
             pointerEvents: 'none',
             position: 'absolute',
             left: this.state.offsetX,
-            top: this.state.offsetY
+            top: this.state.offsetY,
+            width: this.props.width,
+            height: this.props.height
           }}
         >
           {this.props.children}
