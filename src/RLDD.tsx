@@ -56,8 +56,8 @@ export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
 
   render() {
     // console.log('RLDD.render');
-    const cssClasses = this.props.cssClasses || '';
-    const style = this.props.inlineStyle || {};
+    const cssClasses = this.props.cssClasses + ' dl-list';
+    const style = this.computeStyle();
     const items = this.props.items;
     const itemRenderer = this.props.itemRenderer;
     const draggedItemId = this.state.draggedId;
@@ -87,6 +87,11 @@ export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
         </RLDDFloatingItemComponent>
       </div>
     );
+  }
+
+  private computeStyle() {
+    const display: string = this.props.layout === 'vertical' ? 'block' : 'flex';
+    return Object.assign({ display }, this.props.inlineStyle || {});
   }
 
   private handleDragBegin = (draggedId: number) => {

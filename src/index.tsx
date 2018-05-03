@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { render } from 'react-dom';
-import Example from './examples/Example';
+import Examples from './examples/Examples';
 
-render(<Example />, document.getElementById('root'));
+render(<Examples />, document.getElementById('root'));
 
 if (process.env.NODE_ENV !== 'production') {
   const { whyDidYouUpdate } = require('why-did-you-update');
