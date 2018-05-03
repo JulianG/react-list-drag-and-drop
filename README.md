@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/JulianG/react-list-drag-and-drop.svg?branch=master&x)](https://travis-ci.org/JulianG/react-list-drag-and-drop)
 
-![React List Drag and Drop Example](https://i.imgur.com/TwGLUNf.gif "React List Drag and Drop Example")
+![React List Drag and Drop Example](https://github.com/JulianG/react-list-drag-and-drop/blob/master/demos/rldd-horitontal-and-vertical-examples.gif?raw=true "React List Drag and Drop Example")
 
 ## Installation
 
