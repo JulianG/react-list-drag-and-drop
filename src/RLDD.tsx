@@ -66,35 +66,42 @@ items: ${props.items.map(item => item.id).toString()}`;
     const cssClasses = this.props.cssClasses + ' dl-list';
     const style = this.computeStyle();
     const items = this.props.items;
-    const itemRenderer = this.props.itemRenderer;
-    const draggedItemId = this.state.draggedId;
-    const draggedItemIndex = this.findItemIndexById(draggedItemId);
-
     return (
       <div className={cssClasses} style={style}>
-        {items.map((item, i) => {
-          return (
-            <RLDDItemComponent
-              key={item.id}
-              logic={this.logic}
-              itemId={item.id}
-              activity={draggedItemId >= 0}
-              dragged={draggedItemId === item.id}
-              hovered={draggedItemId === item.id}
-            >
-              {itemRenderer(item, i)}
-            </RLDDItemComponent>
-          );
-        })}
-        <RLDDFloatingItemComponent
-          logic={this.logic}
-          draggedId={draggedItemId}
-          width={this.state.draggedItemDimensions.width}
-          height={this.state.draggedItemDimensions.height}
-        >
-          {draggedItemIndex >= 0 && itemRenderer(items[draggedItemIndex], draggedItemIndex)}
-        </RLDDFloatingItemComponent>
+        {items.map(this.createItemComponent)}
+        {this.createFloatingComponent()}
       </div>
+    );
+  }
+
+  private createItemComponent = (item: RLDDItem, i: number): JSX.Element => {
+    const draggedItemId = this.state.draggedId;
+    return (
+      <RLDDItemComponent
+        key={item.id}
+        logic={this.logic}
+        itemId={item.id}
+        activity={draggedItemId >= 0}
+        dragged={draggedItemId === item.id}
+        hovered={draggedItemId === item.id}
+      >
+        {this.props.itemRenderer(item, i)}
+      </RLDDItemComponent>
+    );
+  }
+
+  private createFloatingComponent = (): JSX.Element => {
+    const draggedItemId = this.state.draggedId;
+    const draggedItemIndex = this.findItemIndexById(draggedItemId);
+    return (
+      <RLDDFloatingItemComponent
+        logic={this.logic}
+        draggedId={draggedItemId}
+        width={this.state.draggedItemDimensions.width}
+        height={this.state.draggedItemDimensions.height}
+      >
+        {draggedItemIndex >= 0 && this.props.itemRenderer(this.props.items[draggedItemIndex], draggedItemIndex)}
+      </RLDDFloatingItemComponent>
     );
   }
 
