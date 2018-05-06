@@ -45,13 +45,13 @@ export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
 
   componentDidMount() {
     this.logic.onDragBeginSignal.addListener(this.handleDragBegin);
-    this.logic.onMouseOverSignal.addListener(this.handleMouseOver);
+    this.logic.onDragHoverSignal.addListener(this.handleMouseOver);
     this.logic.onDragEndSignal.addListener(this.handleDragEnd);
   }
 
   componentWillUnmount() {
     this.logic.onDragBeginSignal.removeListener(this.handleDragBegin);
-    this.logic.onMouseOverSignal.removeListener(this.handleMouseOver);
+    this.logic.onDragHoverSignal.removeListener(this.handleMouseOver);
     this.logic.onDragEndSignal.removeListener(this.handleDragEnd);
   }
 

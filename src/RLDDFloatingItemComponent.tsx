@@ -1,5 +1,7 @@
 import * as React from 'react';
-import RLDDLogic, { RLDDPoint } from './RLDDLogic';
+import * as ReactDOM from 'react-dom';
+import RLDDLogic from './RLDDLogic';
+import { Point, Rect } from './Geometry';
 import './RLDDFloatingItem.css';
 
 export interface RLDDFloatingItemProps {
@@ -22,13 +24,18 @@ class RLDDFloatingItemComponent extends React.PureComponent<RLDDFloatingItemProp
   }
 
   componentDidMount() {
-    this.props.logic.onMouseMoveSignal.addListener(this.refresh);
-  }
-  componentWillUnmount() {
-    this.props.logic.onMouseMoveSignal.removeListener(this.refresh);
+    this.props.logic.setFloatingItemBoxRect(this.getBox());
+    this.props.logic.onDragMoveSignal.addListener(this.refresh);
   }
 
-  refresh = (id: number, offset: RLDDPoint) => {
+  componentDidUpdate() {
+    this.props.logic.setFloatingItemBoxRect(this.getBox());
+  }
+  componentWillUnmount() {
+    this.props.logic.onDragMoveSignal.removeListener(this.refresh);
+  }
+
+  refresh = (id: number, offset: Point) => {
     this.setState({ offsetX: offset.x, offsetY: offset.y });
   }
 
@@ -53,6 +60,11 @@ class RLDDFloatingItemComponent extends React.PureComponent<RLDDFloatingItemProp
     } else {
       return undefined;
     }
+  }
+
+  private getBox(): Rect {
+    const ref = ReactDOM.findDOMNode(this);
+    return ref ? ref.getBoundingClientRect() : { top: 0, left: 0, width: 0, height: 0 };
   }
 
 }

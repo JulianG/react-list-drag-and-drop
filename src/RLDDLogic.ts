@@ -1,18 +1,18 @@
 import Signal from './Signal';
-
-export interface RLDDPoint {
-  x: number;
-  y: number;
-}
+import { Point, Rect, isRectValid, getAreaOfIntersection } from './Geometry';
 
 export type RLDDLayout = 'vertical' | 'horizontal' | 'grid';
 
 export default class RLDDLogic {
 
   public onDragBeginSignal: Signal = new Signal();
-  public onMouseOverSignal: Signal = new Signal();
-  public onMouseMoveSignal: Signal = new Signal();
+  public onDragHoverSignal: Signal = new Signal();
+  public onDragMoveSignal: Signal = new Signal();
   public onDragEndSignal: Signal = new Signal();
+
+  private lastHoveredId: number = -1;
+  private floatingItemBoxRect: Rect;
+  private itemBoxRects: Map<number, Rect> = new Map<number, Rect>();
 
   getMode(): RLDDLayout {
     return this.mode;
@@ -33,16 +33,20 @@ export default class RLDDLogic {
   ) {
   }
 
+  setItemIdBoxRect(itemId: number, boxRect: Rect) {
+    this.itemBoxRects.set(itemId, boxRect);
+  }
+  setFloatingItemBoxRect(boxRect: Rect) {
+    this.floatingItemBoxRect = boxRect;
+  }
+
   handleDragBegin(draggedId: number, width: number, height: number) {
     this.onDragBeginSignal.dispatch(draggedId, width, height);
   }
 
-  handleMouseOver(hoveredId: number) {
-    this.onMouseOverSignal.dispatch(hoveredId);
-  }
-
-  handleMouseMove(id: number, offset: RLDDPoint) {
-    this.onMouseMoveSignal.dispatch(id, offset);
+  handleDragMove(id: number, offset: Point) {
+    this.onDragMoveSignal.dispatch(id, offset);
+    this.updateHoveredItem();
   }
 
   handleDragEnd() {
@@ -66,6 +70,29 @@ export default class RLDDLogic {
       }
     }
     return newItems;
+  }
+
+  private updateHoveredItem() {
+    const hoveredId = this.findHoveredItemId();
+    if (hoveredId >= 0) {
+      this.lastHoveredId = hoveredId;
+      this.onDragHoverSignal.dispatch(hoveredId);
+    }
+  }
+
+  private findHoveredItemId(): number {
+    if (isRectValid(this.floatingItemBoxRect) && this.itemBoxRects.size > 0) {
+      const areas = new Array<{ id: number, area: number }>();
+      this.itemBoxRects.forEach((rect: Rect, itemId: number) => {
+        const area = getAreaOfIntersection(rect, this.floatingItemBoxRect);
+        areas.push({ id: itemId, area });
+      });
+      const sortedAreas = areas.sort((a, b) => b.area - a.area);
+      if (sortedAreas[0].area > 0 && sortedAreas[0].id !== this.lastHoveredId) {
+        return sortedAreas[0].id;
+      }
+    }
+    return -1;
   }
 
 }

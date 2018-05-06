@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import RLDDLogic from './RLDDLogic';
+import { Rect } from './Geometry';
 
 export interface RLDDItemProps {
   logic: RLDDLogic;
@@ -14,38 +15,30 @@ export interface RLDDItemState {
   isDragging: boolean;
 }
 
-interface BoxRect {
-  left: number;
-  top: number;
-  width: number;
-  height: number;
-}
-
 export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps, RLDDItemState> {
   private isDown: boolean = false;
   private mouseDownTimestamp: number = 0;
   private initialOffset: { x: number; y: number };
-  private mouseOverPending: boolean;
 
   constructor(props: RLDDItemProps) {
     super(props);
     this.state = { isDragging: false };
-    this.mouseOverPending = false;
     this.initialOffset = { x: 0, y: 0 };
 
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
-    this.handleMouseOver = this.handleMouseOver.bind(this);
-    this.handleMouseOut = this.handleMouseOut.bind(this);
+  }
 
-    document.addEventListener('mousemove', this.handleMouseMoveForHover.bind(this));
+  componentDidMount() {
+    this.props.logic.setItemIdBoxRect(this.props.itemId, this.getBox());
   }
 
   componentDidUpdate(prevProps: RLDDItemProps, prevState: RLDDItemState) {
     if (!this.state.isDragging && prevState.isDragging) {
       this.removeDocumentListeners();
     }
+    this.props.logic.setItemIdBoxRect(this.props.itemId, this.getBox());
   }
 
   render() {
@@ -57,8 +50,6 @@ export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps
     return (
       <div
         onMouseDown={this.handleMouseDown}
-        onMouseOver={this.handleMouseOver}
-        onMouseOut={this.handleMouseOut}
         className={cssClasses}
       >
         {this.props.children}
@@ -85,7 +76,6 @@ export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps
     this.mouseDownTimestamp = new Date().getTime();
     this.initialOffset = this.getOffset(e);
     e.preventDefault();
-
     this.addDocumentListeners();
   }
 
@@ -100,25 +90,16 @@ export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps
     };
 
     if (this.state.isDragging === false && this.isDown) {
-
       const box = this.getBox();
-      console.log(`${box.width},${box.height}`);
-
       this.props.logic.handleDragBegin(this.props.itemId, box.width, box.height);
+      console.warn('TODO: no need to pass width and height here');
     }
     this.setState(Object.assign(this.state, { isDragging: this.isDown }));
-
-    this.props.logic.handleMouseMove(this.props.itemId, offset);
+    this.props.logic.handleDragMove(this.props.itemId, offset);
   }
 
   private getTimeSinceMouseDown(): number {
     return new Date().getTime() - this.mouseDownTimestamp;
-  }
-
-  private handleMouseMoveForHover(e: MouseEvent) {
-    if (this.mouseOverPending) {
-      this.dispatchMouseOverIfWithinLimit(this.getOffset(e));
-    }
   }
 
   private handleMouseUp() {
@@ -129,18 +110,11 @@ export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps
     }
   }
 
-  private handleMouseOver(e: React.MouseEvent<HTMLElement>) {
-    this.mouseOverPending = true;
-  }
-
-  private handleMouseOut(e: React.MouseEvent<HTMLElement>) {
-    this.mouseOverPending = false;
-  }
-
-  private getBox(): BoxRect {
+  private getBox(): Rect {
     const ref = ReactDOM.findDOMNode(this);
-    return ref.getBoundingClientRect();
+    return ref ? ref.getBoundingClientRect() : { top: 0, left: 0, width: 0, height: 0 };
   }
+
   private getOffset(e: { pageX: number, pageY: number }): { x: number; y: number } {
     const box = this.getBox();
     const docElement = document.documentElement;
@@ -148,29 +122,6 @@ export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps
       x: e.pageX - (box.left + docElement.scrollLeft - docElement.clientLeft),
       y: e.pageY - (box.top + docElement.scrollTop - docElement.clientTop)
     };
-  }
-
-  private dispatchMouseOverIfWithinLimit(offset: { x: number, y: number }) {
-
-    const logic = this.props.logic;
-    const threshold = logic.getThreshold();
-    const mode = logic.getMode();
-
-    const delta = {
-      x: offset.x - this.initialOffset.x,
-      y: offset.y - this.initialOffset.y
-    };
-
-    const conditions = {
-      'vertical': (): boolean => (delta.y * delta.y < threshold * threshold),
-      'horizontal': (): boolean => (delta.x * delta.x < threshold * threshold),
-      'grid': (): boolean => (delta.x * delta.x + delta.y * delta.y < 2 * threshold * threshold)
-    };
-
-    if (conditions[mode]()) {
-      logic.handleMouseOver(this.props.itemId);
-      this.mouseOverPending = false;
-    }
   }
 
 }
