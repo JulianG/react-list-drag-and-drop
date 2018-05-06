@@ -39,7 +39,7 @@ export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
 
   constructor(props: RLDDProps) {
     super(props);
-    this.logic = new RLDDLogic(props.layout!, props.threshold!, props.dragDelay!);
+    this.logic = new RLDDLogic( props.threshold!, props.dragDelay!);
     this.state = { draggedId: -1, hoveredId: -1, draggedItemDimensions: { width: 0, height: 0 } };
   }
 

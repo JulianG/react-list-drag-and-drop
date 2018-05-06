@@ -1,8 +1,6 @@
 import Signal from './Signal';
 import { Point, Rect, isRectValid, getAreaOfIntersection } from './Geometry';
 
-export type RLDDLayout = 'vertical' | 'horizontal' | 'grid';
-
 export default class RLDDLogic {
 
   public onDragBeginSignal: Signal = new Signal();
@@ -14,10 +12,6 @@ export default class RLDDLogic {
   private floatingItemBoxRect: Rect;
   private itemBoxRects: Map<number, Rect> = new Map<number, Rect>();
 
-  getMode(): RLDDLayout {
-    return this.mode;
-  }
-
   getThreshold(): number {
     return this.threshold;
   }
@@ -27,7 +21,6 @@ export default class RLDDLogic {
   }
 
   constructor(
-    private mode: RLDDLayout,
     private threshold: number,
     private dragDelay: number
   ) {
