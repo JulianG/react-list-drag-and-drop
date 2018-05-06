@@ -90,9 +90,7 @@ export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps
     };
 
     if (this.state.isDragging === false && this.isDown) {
-      const box = this.getBox();
-      this.props.logic.handleDragBegin(this.props.itemId, box.width, box.height);
-      console.warn('TODO: no need to pass width and height here');
+      this.props.logic.handleDragBegin(this.props.itemId);
     }
     this.setState(Object.assign(this.state, { isDragging: this.isDown }));
     this.props.logic.handleDragMove(this.props.itemId, offset);

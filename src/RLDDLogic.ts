@@ -33,8 +33,11 @@ export default class RLDDLogic {
     this.floatingItemBoxRect = boxRect;
   }
 
-  handleDragBegin(draggedId: number, width: number, height: number) {
-    this.onDragBeginSignal.dispatch(draggedId, width, height);
+  handleDragBegin(draggedId: number) {
+    const draggedItemRect = this.itemBoxRects.get(draggedId);
+    if (draggedItemRect) {
+      this.onDragBeginSignal.dispatch(draggedId, draggedItemRect.width, draggedItemRect.height);
+    }
   }
 
   handleDragMove(id: number, offset: Point) {
