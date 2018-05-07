@@ -1,7 +1,7 @@
 import * as Geom from '../Geometry';
 
 /* tslint:disable no-any */
-const _test = (s: string, f: any) => console.warn(`Skipping test: ${s}`);
+// const _test = (s: string, f: any) => console.warn(`Skipping test: ${s}`);
 
 test('Two Rects not overlapping, when r0 is NW of r1', () => {
 	const r0: Geom.Rect = { top: 0, left: 0, width: 10, height: 10 };
