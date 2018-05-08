@@ -1,5 +1,5 @@
 import Signal from './Signal';
-import { Point, Rect, isRectValid, getAreaOfIntersection } from './Geometry';
+import * as Geom from './Geometry';
 
 export default class RLDDLogic {
 
@@ -9,8 +9,8 @@ export default class RLDDLogic {
   public onDragEndSignal: Signal = new Signal();
 
   private lastHoveredId: number = -1;
-  private floatingItemBoxRect: Rect;
-  private itemBoxRects: Map<number, Rect> = new Map<number, Rect>();
+  private floatingItemBoxRect: Geom.Rect;
+  private itemBoxRects: Map<number, Geom.Rect> = new Map<number, Geom.Rect>();
 
   getThreshold(): number {
     return this.threshold;
@@ -26,10 +26,10 @@ export default class RLDDLogic {
   ) {
   }
 
-  setItemIdBoxRect(itemId: number, boxRect: Rect) {
+  setItemIdBoxRect(itemId: number, boxRect: Geom.Rect) {
     this.itemBoxRects.set(itemId, boxRect);
   }
-  setFloatingItemBoxRect(boxRect: Rect) {
+  setFloatingItemBoxRect(boxRect: Geom.Rect) {
     this.floatingItemBoxRect = boxRect;
   }
 
@@ -40,7 +40,7 @@ export default class RLDDLogic {
     }
   }
 
-  handleDragMove(id: number, offset: Point) {
+  handleDragMove(id: number, offset: Geom.Point) {
     this.onDragMoveSignal.dispatch(id, offset);
     this.updateHoveredItem();
   }
@@ -77,10 +77,10 @@ export default class RLDDLogic {
   }
 
   private findHoveredItemId(): number {
-    if (isRectValid(this.floatingItemBoxRect) && this.itemBoxRects.size > 0) {
+    if (Geom.isRectValid(this.floatingItemBoxRect) && this.itemBoxRects.size > 0) {
       const areas = new Array<{ id: number, area: number }>();
-      this.itemBoxRects.forEach((rect: Rect, itemId: number) => {
-        const area = getAreaOfIntersection(rect, this.floatingItemBoxRect);
+      this.itemBoxRects.forEach((rect: Geom.Rect, itemId: number) => {
+        const area = Geom.getAreaOfIntersection(rect, this.floatingItemBoxRect) / Geom.getRectArea(rect);
         areas.push({ id: itemId, area });
       });
       const sortedAreas = areas.sort((a, b) => b.area - a.area);
