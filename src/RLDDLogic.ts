@@ -70,25 +70,28 @@ export default class RLDDLogic {
 
   private updateHoveredItem() {
     const hoveredId = this.findHoveredItemId();
-    if (hoveredId >= 0) {
+    if (hoveredId >= 0 && hoveredId !== this.lastHoveredId /*&& hoveredId !== this.lastDraggedId*/) {
       this.lastHoveredId = hoveredId;
       this.onDragHoverSignal.dispatch(hoveredId);
     }
   }
 
   private findHoveredItemId(): number {
-    if (Geom.isRectValid(this.floatingItemBoxRect) && this.itemBoxRects.size > 0) {
-      const areas = new Array<{ id: number, area: number }>();
-      this.itemBoxRects.forEach((rect: Geom.Rect, itemId: number) => {
-        const area = Geom.getAreaOfIntersection(rect, this.floatingItemBoxRect) / Geom.getRectArea(rect);
-        areas.push({ id: itemId, area });
-      });
-      const sortedAreas = areas.sort((a, b) => b.area - a.area);
-      if (sortedAreas[0].area > 0 && sortedAreas[0].id !== this.lastHoveredId) {
-        return sortedAreas[0].id;
+    if (Geom.isRectValid(this.floatingItemBoxRect)) {
+      const areas = this.calculateOverlappingAreas().sort((a, b) => b.area - a.area);
+      if (areas.length > 0 && areas[0].area > 0) {
+        return areas[0].id;
       }
     }
     return -1;
   }
 
+  private calculateOverlappingAreas() {
+    const areas = new Array<{ id: number, area: number }>();
+    this.itemBoxRects.forEach((rect: Geom.Rect, itemId: number) => {
+      const area = Geom.getAreaOfIntersection(rect, this.floatingItemBoxRect) / Geom.getRectArea(rect);
+      areas.push({ id: itemId, area });
+    });
+    return areas;
+  }
 }
