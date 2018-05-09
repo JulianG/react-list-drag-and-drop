@@ -24,13 +24,14 @@
     "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
     "build-lib": "rm -rf ./lib/* && node ./build-lib.js",
-    "prepack": "npm run-script build-lib"
+    "prepack": "npm run-script build-lib",
+    "postversion": "npm run-script build-lib"
   },
   "author": "",
   "license": "",
   "devDependencies": {
     "@types/jest": "^22.1.3",
-    "@types/node": "^9.6.7",
+    "@types/node": "^9.6.14",
     "@types/react": "16.0.38",
     "@types/react-dom": "16.0.4",
     "glob": "^7.1.2",
