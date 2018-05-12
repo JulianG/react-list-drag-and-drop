@@ -16,7 +16,7 @@ export interface RLDDFloatingItemState {
   offsetY: number;
 }
 
-class RLDDFloatingItemComponent extends React.PureComponent<RLDDFloatingItemProps, RLDDFloatingItemState> {
+class RLDDFloatingItemComponent extends React.Component<RLDDFloatingItemProps, RLDDFloatingItemState> {
 
   constructor(props: RLDDFloatingItemProps) {
     super(props);

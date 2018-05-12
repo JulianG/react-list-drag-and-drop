@@ -25,7 +25,7 @@ export interface RLDDState {
   draggedItemDimensions: { width: number, height: number };
 }
 
-export default class RLDD extends React.PureComponent<RLDDProps, RLDDState> {
+export default class RLDD extends React.Component<RLDDProps, RLDDState> {
 
   static defaultProps: Partial<RLDDProps> = {
     cssClasses: '',

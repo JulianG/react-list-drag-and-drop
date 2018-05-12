@@ -15,7 +15,7 @@ export interface RLDDItemState {
   isDragging: boolean;
 }
 
-export default class RLDDItemComponent extends React.PureComponent<RLDDItemProps, RLDDItemState> {
+export default class RLDDItemComponent extends React.Component<RLDDItemProps, RLDDItemState> {
   private isDown: boolean = false;
   private mouseDownTimestamp: number = 0;
   private initialOffset: { x: number; y: number };
