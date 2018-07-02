@@ -18,10 +18,7 @@ export interface RLDDFloatingItemState {
 
 class RLDDFloatingItemComponent extends React.Component<RLDDFloatingItemProps, RLDDFloatingItemState> {
 
-  constructor(props: RLDDFloatingItemProps) {
-    super(props);
-    this.state = { offsetX: 0, offsetY: 0 };
-  }
+  readonly state: RLDDFloatingItemState = { offsetX: 0, offsetY: 0 };
 
   componentDidMount() {
     this.props.logic.setFloatingItemBoxRect(this.getBox());
@@ -63,7 +60,7 @@ class RLDDFloatingItemComponent extends React.Component<RLDDFloatingItemProps, R
   }
 
   private getBox(): Rect {
-    const ref = ReactDOM.findDOMNode(this);
+    const ref = ReactDOM.findDOMNode(this) as Element;
     return ref ? ref.getBoundingClientRect() : { top: 0, left: 0, width: 0, height: 0 };
   }
 
