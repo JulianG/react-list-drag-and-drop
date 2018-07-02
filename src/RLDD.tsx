@@ -26,7 +26,7 @@ export interface RLDDState {
 }
 
 export default class RLDD extends React.Component<RLDDProps, RLDDState> {
-
+    
   static defaultProps: Partial<RLDDProps> = {
     cssClasses: '',
     inlineStyle: {},
@@ -34,13 +34,14 @@ export default class RLDD extends React.Component<RLDDProps, RLDDState> {
     threshold: 15,
     dragDelay: 250
   };
+  
+  readonly state: RLDDState  = { draggedId: -1, hoveredId: -1, draggedItemDimensions: { width: 0, height: 0 } };
 
   private logic: RLDDLogic;
 
   constructor(props: RLDDProps) {
     super(props);
     this.logic = new RLDDLogic( props.threshold!, props.dragDelay!);
-    this.state = { draggedId: -1, hoveredId: -1, draggedItemDimensions: { width: 0, height: 0 } };
   }
 
   componentDidMount() {

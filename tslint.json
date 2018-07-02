@@ -95,5 +95,8 @@
             "check-type",
             "check-typecast"
         ]
+    },
+    "jsRules": {
+        "no-empty": true
     }
 }

@@ -14,10 +14,8 @@ interface State {
 }
 
 export default class HorizontalExample extends React.PureComponent<{}, State> {
-	constructor(props: {}) {
-		super(props);
-		this.state = { items: fruits.fruits };
-	}
+
+	readonly state: State = { items: fruits.fruits }; 
 
 	render() {
 		// console.log('HorizontalExample.render');

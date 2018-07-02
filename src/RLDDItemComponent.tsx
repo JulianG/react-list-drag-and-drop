@@ -16,18 +16,23 @@ export interface RLDDItemState {
 }
 
 export default class RLDDItemComponent extends React.Component<RLDDItemProps, RLDDItemState> {
+  
+  readonly state: RLDDItemState = { isDragging: false };
   private isDown: boolean = false;
   private mouseDownTimestamp: number = 0;
   private initialOffset: { x: number; y: number };
 
+	// private ref: React.RefObject<HTMLDivElement>;
+
   constructor(props: RLDDItemProps) {
     super(props);
-    this.state = { isDragging: false };
     this.initialOffset = { x: 0, y: 0 };
 
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
+
+    // this.ref = React.createRef();
   }
 
   componentDidMount() {
@@ -49,6 +54,7 @@ export default class RLDDItemComponent extends React.Component<RLDDItemProps, RL
     const cssClasses = 'dl-item ' + activity + ' ' + dragged + ' ' + hovered;
     return (
       <div
+        // ref={this.ref}
         onMouseDown={this.handleMouseDown}
         className={cssClasses}
       >
@@ -109,7 +115,7 @@ export default class RLDDItemComponent extends React.Component<RLDDItemProps, RL
   }
 
   private getBox(): Rect {
-    const ref = ReactDOM.findDOMNode(this);
+    const ref = ReactDOM.findDOMNode(this) as Element;
     return ref ? ref.getBoundingClientRect() : { top: 0, left: 0, width: 0, height: 0 };
   }
 

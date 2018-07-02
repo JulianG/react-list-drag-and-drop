@@ -15,10 +15,8 @@ interface State {
 }
 
 export default class VerticalExample extends React.PureComponent<{}, State> {
-	constructor(props: {}) {
-		super(props);
-		this.state = { items: fruits.fruits };
-	}
+
+	readonly state: State = { items: fruits.fruits };
 
 	render() {
 		// console.log('VerticalExample.render');
