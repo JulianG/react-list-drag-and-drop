@@ -13,8 +13,8 @@
   ],
   "main": "src/index.tsx",
   "scripts": {
-    "start": "react-scripts-ts start",
     "build": "react-scripts-ts build",
+    "start": "react-scripts-ts start",
     "test": "react-scripts-ts test --env=jsdom --coverage",
     "eject": "react-scripts-ts eject",
     "build-lib": "rm -rf ./lib/* && node ./build-lib.js",
