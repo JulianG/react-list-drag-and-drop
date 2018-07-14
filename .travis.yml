@@ -10,3 +10,6 @@ install:
 
 script:
   - npm run-script build-lib
+
+after_success: 
+  - npm test
