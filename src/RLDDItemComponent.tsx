@@ -46,6 +46,10 @@ export default class RLDDItemComponent extends React.Component<RLDDItemProps, RL
     this.props.logic.setItemIdBoxRect(this.props.itemId, this.getBox());
   }
 
+  componentWillUnmount() {
+    this.removeDocumentListeners();
+  }
+
   render() {
     // console.log('RLDDItemComponent.render');
     const dragged = this.props.dragged ? 'dragged' : '';
