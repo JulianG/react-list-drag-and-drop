@@ -36,7 +36,7 @@
     "glob": "^7.1.2",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
-    "react-scripts-ts": "^2.16.0",
+    "react-scripts-ts": "^4.0.8",
     "typescript": "^2.9.2",
     "why-did-you-update": "^0.1.1"
   },
@@ -49,5 +49,11 @@
     "./lib/RLDDFloatingItemComponent.d.ts",
     "./lib/RLDDItemComponent.d.ts",
     "./lib/RLDDLogic.d.ts"
+  ],
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
   ]
 }
