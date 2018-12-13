@@ -76,6 +76,7 @@ items: ${props.items.map(item => item.id).toString()}`;
   }
 
   private createItemComponent = (item: RLDDItem, i: number): JSX.Element => {
+    this.assertValidItem(item);
     const draggedItemId = this.state.draggedId;
     return (
       <RLDDItemComponent
@@ -94,6 +95,8 @@ items: ${props.items.map(item => item.id).toString()}`;
   private createFloatingComponent = (): JSX.Element => {
     const draggedItemId = this.state.draggedId;
     const draggedItemIndex = this.findItemIndexById(draggedItemId);
+    const item = this.props.items[draggedItemIndex];
+    this.assertValidItem(item);
     return (
       <RLDDFloatingItemComponent
         logic={this.logic}
@@ -101,7 +104,7 @@ items: ${props.items.map(item => item.id).toString()}`;
         width={this.state.draggedItemDimensions.width}
         height={this.state.draggedItemDimensions.height}
       >
-        {draggedItemIndex >= 0 && this.props.itemRenderer(this.props.items[draggedItemIndex], draggedItemIndex)}
+        {draggedItemIndex >= 0 && this.props.itemRenderer(item, draggedItemIndex)}
       </RLDDFloatingItemComponent>
     );
   }
@@ -146,4 +149,16 @@ items: ${props.items.map(item => item.id).toString()}`;
     const item = this.props.items.find(it => it.id === id);
     return item ? this.props.items.indexOf(item) : -1;
   }
+
+  private assertValidItem = (item: RLDDItem) => {
+    if (item) {
+      if (typeof item !== 'object') {
+        throw `RLDD Error. item must be of type 'object', but it's of type '${typeof item}'.`;
+      }
+      if (typeof item.id !== 'number') {
+        throw `RLDD Error. item must have an 'id' property of type 'number'. ${JSON.stringify(item)}`;
+      }
+    }
+  }
+
 }
