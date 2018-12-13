@@ -14,7 +14,8 @@ npm install --save react-list-drag-and-drop
 
 ## Usage
 
-You must have an `Array` of items to render in your list. Instead of rendering it inside a `<div>` you render it inside a `<RLDD>` component using a render prop.
+You must have an `Array` of items to render in your list.  
+Instead of rendering it inside a `<div>` you render it inside a `<RLDD>` component using a render prop.
 
 ```javascript
 import RLDD from 'react-list-drag-and-drop/lib/RLDD';
@@ -37,6 +38,8 @@ Then you need to handle the onChange callback and call `setState` with the new l
     this.setState({ items: newItems });
   }
 ```
+
+Each item must be of type `Object` and have an `id` property of type `number`.  
 
 You can play around with the examples
 
