@@ -1,6 +1,10 @@
 # React List Drag and Drop
 
+**This package has not been tested on mobile browsers or React Native. SORRY!**
+
 [![Build Status](https://travis-ci.org/JulianG/react-list-drag-and-drop.svg?branch=master&x)](https://travis-ci.org/JulianG/react-list-drag-and-drop)
+
+----
 
 ![React List Drag and Drop Example](https://github.com/JulianG/react-list-drag-and-drop/blob/master/demos/horizontal-fruits.gif?raw=true "React List Drag and Drop Example")
 
