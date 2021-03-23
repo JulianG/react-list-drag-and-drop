@@ -71,12 +71,16 @@ export default class RLDDItemComponent extends React.Component<RLDDItemProps, RL
 
   private addDocumentListeners() {
     document.addEventListener('mouseup', this.handleMouseUp);
+    document.addEventListener('touchstart', this.handleMouseUp);
+    document.addEventListener('touchmove', this.handleMouseMove);
     document.addEventListener('mousemove', this.handleMouseMove);
   }
 
   private removeDocumentListeners() {
     document.removeEventListener('mouseup', this.handleMouseUp);
     document.removeEventListener('mousemove', this.handleMouseMove);
+    document.removeEventListener('touchstart', this.handleMouseUp);
+    document.removeEventListener('touchmove', this.handleMouseMove);
   }
 
   /////
