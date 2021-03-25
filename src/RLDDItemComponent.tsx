@@ -3,9 +3,9 @@ import * as ReactDOM from 'react-dom';
 import RLDDLogic from './RLDDLogic';
 import { Rect } from './Geometry';
 
-export interface RLDDItemProps {
-  logic: RLDDLogic;
-  itemId: number;
+export interface RLDDItemProps<Type> {
+  logic: RLDDLogic<Type>;
+  itemId: Type;
   activity: boolean;
   dragged: boolean;
   hovered: boolean;
@@ -15,18 +15,18 @@ export interface RLDDItemState {
   isDragging: boolean;
 }
 
-export default class RLDDItemComponent extends React.Component<RLDDItemProps, RLDDItemState> {
+export default class  RLDDItemComponent<Type> extends React.Component<RLDDItemProps<Type>, RLDDItemState> {
   
   readonly state: RLDDItemState = { isDragging: false };
   private isDown: boolean = false;
   private mouseDownTimestamp: number = 0;
-  private initialOffset: { x: number; y: number };
+  // private initialOffset: { x: number; y: number };
 
 	// private ref: React.RefObject<HTMLDivElement>;
 
-  constructor(props: RLDDItemProps) {
+  constructor(props: RLDDItemProps<Type>) {
     super(props);
-    this.initialOffset = { x: 0, y: 0 };
+    // this.initialOffset = { x: 0, y: 0 };
 
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
@@ -39,7 +39,7 @@ export default class RLDDItemComponent extends React.Component<RLDDItemProps, RL
     this.props.logic.setItemIdBoxRect(this.props.itemId, this.getBox());
   }
 
-  componentDidUpdate(prevProps: RLDDItemProps, prevState: RLDDItemState) {
+  componentDidUpdate(prevProps: RLDDItemProps<Type>, prevState: RLDDItemState) {
     if (!this.state.isDragging && prevState.isDragging) {
       this.removeDocumentListeners();
     }
@@ -84,7 +84,7 @@ export default class RLDDItemComponent extends React.Component<RLDDItemProps, RL
   private handleMouseDown(e: React.MouseEvent<HTMLElement>) {
     this.isDown = true;
     this.mouseDownTimestamp = new Date().getTime();
-    this.initialOffset = this.getOffset(e);
+    // this.initialOffset = this.getOffset(e);
     e.preventDefault();
     this.addDocumentListeners();
   }
@@ -95,8 +95,17 @@ export default class RLDDItemComponent extends React.Component<RLDDItemProps, RL
     }
 
     const offset = {
-      x: e.layerX - this.initialOffset.x,
-      y: e.layerY - this.initialOffset.y
+      // x: e.layerX - this.initialOffset.x,
+      // y: e.layerY - this.initialOffset.y
+
+      // x: e.offsetX - this.initialOffset.x,
+      // y: e.offsetY - this.initialOffset.y
+
+      x: e.pageX,
+      y: e.pageY
+
+      // x: this.getOffset(e).x,
+      // y: this.getOffset(e).y 
     };
 
     if (this.state.isDragging === false && this.isDown) {
@@ -123,13 +132,13 @@ export default class RLDDItemComponent extends React.Component<RLDDItemProps, RL
     return ref ? ref.getBoundingClientRect() : { top: 0, left: 0, width: 0, height: 0 };
   }
 
-  private getOffset(e: { pageX: number, pageY: number }): { x: number; y: number } {
-    const box = this.getBox();
-    const docElement = document.documentElement;
-    return {
-      x: e.pageX - (box.left + docElement.scrollLeft - docElement.clientLeft),
-      y: e.pageY - (box.top + docElement.scrollTop - docElement.clientTop)
-    };
-  }
+  // private getOffset(e: { pageX: number, pageY: number }): { x: number; y: number } {
+  //   const box = this.getBox();
+  //   const docElement = document.documentElement;
+  //   return {
+  //     x: e.pageX - (box.left + docElement.scrollLeft - docElement.clientLeft),
+  //     y: e.pageY - (box.top + docElement.scrollTop - docElement.clientTop)
+  //   };
+  // }
 
 }

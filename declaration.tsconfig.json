@@ -1,0 +1,15 @@
+{
+    "extends": "./tsconfig",
+    "exclude": [
+        "test/**/*.js",
+        "node_modules/**/*.ts",
+        "./node_modules/**/*.ts"
+    ],
+    "compilerOptions": {
+        "declaration": true,
+        "noEmit": false,
+        "emitDeclarationOnly": true,
+        "module": "commonjs",
+        "composite": true
+    }
+}

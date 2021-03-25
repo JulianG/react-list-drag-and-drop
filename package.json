@@ -1,6 +1,8 @@
 {
   "name": "react-list-drag-and-drop",
-  "version": "0.9.2",
+  "version": "0.10.2",
+  "author": "JulianG",
+  "license": "MIT",
   "description": "",
   "repository": {
     "type": "git",
@@ -13,46 +15,54 @@
   ],
   "main": "src/index.tsx",
   "scripts": {
+    "declaration:build": "rm -f index.d.ts && rm -rfd build/dist && tsc --declaration --declarationMap --pretty -p declaration.tsconfig.json",
+    "declaration:check": "git diff --exit-code -- index.d.ts",
+    "prepublishOnly": "npm run --silent declaration:build && npm run --silent declaration:check",
     "build": "react-scripts-ts build",
     "start": "react-scripts-ts start",
-    "test": "react-scripts-ts test --env=jsdom --coverage",
+    "test": "react-scripts-ts test --env=jsdom",
     "eject": "react-scripts-ts eject",
     "build-lib": "rm -rf ./lib/* && node ./build-lib.js",
     "prepack": "npm run-script build-lib",
     "postversion": "npm run-script build-lib"
   },
-  "author": "",
-  "license": "",
-  "dependencies": {},
+  "dependencies": {
+    "@babel/eslint-parser": "^7.13.10",
+    "browserslist": "^4.16.3",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "typescript": "^4.2.3"
+  },
   "peerDependencies": {
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1"
+    "@babel/core": "^7.13.10",
+    "babel-runtime": "^6.23.0",
+    "eslint": "^7.22.0",
+    "jest": "22.0.1",
+    "ts-jest": "22.0.1"
   },
   "devDependencies": {
-    "@types/jest": "^22.1.3",
-    "@types/node": "^9.6.22",
-    "@types/react": "^16.4.4",
-    "@types/react-dom": "^16.0.6",
-    "glob": "^7.1.2",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
-    "react-scripts-ts": "^4.0.8",
-    "typescript": "^2.9.2",
-    "why-did-you-update": "^0.1.1"
+    "@types/jest": "^26.0.21",
+    "@types/node": "^14.14.35",
+    "@types/react": "^17.0.3",
+    "@types/react-dom": "^17.0.2",
+    "glob": "^7.1.6",
+    "install": "^0.13.0",
+    "react-scripts-ts": "^3.1.0",
+    "why-did-you-update": "^1.0.8"
   },
   "files": [
     "lib",
     "LICENSE"
   ],
-  "types": [
+  "stypes": [
     "./lib/RLDD.d.ts",
     "./lib/RLDDFloatingItemComponent.d.ts",
     "./lib/RLDDItemComponent.d.ts",
     "./lib/RLDDLogic.d.ts"
   ],
   "browserslist": [
+    "defaults",
     ">0.2%",
-    "not dead",
     "not ie <= 11",
     "not op_mini all"
   ]

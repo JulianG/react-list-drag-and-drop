@@ -4,9 +4,9 @@ import RLDDLogic from './RLDDLogic';
 import { Point, Rect } from './Geometry';
 import './RLDDFloatingItem.css';
 
-export interface RLDDFloatingItemProps {
-  logic: RLDDLogic;
-  draggedId: number;
+export interface RLDDFloatingItemProps <Type> {
+  logic: RLDDLogic<Type>;
+  draggedId: Type;
   width: number;
   height: number;
 }
@@ -16,7 +16,7 @@ export interface RLDDFloatingItemState {
   offsetY: number;
 }
 
-class RLDDFloatingItemComponent extends React.Component<RLDDFloatingItemProps, RLDDFloatingItemState> {
+class RLDDFloatingItemComponent<Type> extends React.Component<RLDDFloatingItemProps<Type>, RLDDFloatingItemState> {
 
   readonly state: RLDDFloatingItemState = { offsetX: 0, offsetY: 0 };
 
@@ -38,7 +38,7 @@ class RLDDFloatingItemComponent extends React.Component<RLDDFloatingItemProps, R
 
   render() {
     // console.log('RLDDFloatingItemComponent.render');
-    if (this.props.draggedId >= -1) {
+    if (this.props.draggedId >= Object(-1)) {
       return (
         <div
           className="dl-item floating"
