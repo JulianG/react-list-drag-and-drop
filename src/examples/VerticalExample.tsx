@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React, { PureComponent }  from 'react';
 import RLDD from '../RLDD';
 
-const fruits = require('./fruits.json');
+const fruits = require('./fruitsStringId.json');
 
 interface Item {
 	id: number;
@@ -14,7 +14,7 @@ interface State {
 	items: Item[];
 }
 
-export default class VerticalExample extends React.PureComponent<{}, State> {
+export default class VerticalExample extends PureComponent<{}, State> {
 
 	readonly state: State = { items: fruits.fruits };
 

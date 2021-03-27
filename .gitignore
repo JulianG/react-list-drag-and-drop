@@ -1,3 +1,6 @@
+# IDE settings
+.vscode/**/*.*
+
 # dependencies
 /node_modules
 
@@ -7,6 +10,7 @@
 # production
 /build
 /lib
+/src/dist
 
 # misc
 .DS_Store
