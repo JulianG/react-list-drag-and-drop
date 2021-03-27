@@ -1,4 +1,6 @@
-import * as React from 'react';
+// import React from 'react';
+import React, { Component } from 'react';
+// import * as React from 'react';
 
 import RLDDItemComponent from './RLDDItemComponent';
 import RLDDLogic from './RLDDLogic';
@@ -25,7 +27,7 @@ export interface RLDDState<Type> {
   draggedItemDimensions: { width: number, height: number };
 }
 
-export default class RLDD<Type> extends React.Component<RLDDProps<Type>, RLDDState<Type>> {
+export default class RLDD<Type> extends Component<RLDDProps<Type>, RLDDState<Type>> {
     
   static defaultProps: Partial<RLDDProps<Number>> = {
     cssClasses: '',

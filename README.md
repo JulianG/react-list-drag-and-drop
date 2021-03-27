@@ -43,7 +43,7 @@ Then you need to handle the onChange callback and call `setState` with the new l
   }
 ```
 
-Each item must be of type `Object` and have an `id` property of type `number`.  
+Each item must be of type `Object` and have an `id` property. Number and String work and display correctly. An 'id' property of any other type may not render correctly to the page - be warned.
 
 You can play around with the examples
 

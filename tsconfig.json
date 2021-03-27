@@ -11,6 +11,7 @@
     "sourceMap": true,
     "jsx": "react",
     "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     "rootDir": "src",
     "declaration": true,
     "declarationMap": true,
