@@ -50,7 +50,7 @@
     "@types/react-dom": "^17.0.2",
     "glob": "^7.1.6",
     "install": "^0.13.0",
-    "react-scripts-ts": "^3.1.0",
+    "react-scripts-ts": "^4.0.8",
     "why-did-you-update": "^1.0.8"
   },
   "files": [
@@ -65,11 +65,9 @@
   ],
   "browserslist": [
     "defaults",
+    "not dead",
     ">0.2%",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "publishConfig": {
-    "registry": "https://nexus.tasmot.com/repository/TasMot_Repo/"
-  }
+  ]
 }

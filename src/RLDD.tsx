@@ -1,6 +1,4 @@
-// import React from 'react';
 import React, { Component } from 'react';
-// import * as React from 'react';
 
 import RLDDItemComponent from './RLDDItemComponent';
 import RLDDLogic from './RLDDLogic';
@@ -63,12 +61,6 @@ export default class RLDD<Type> extends Component<RLDDProps<Type>, RLDDState<Typ
     this.logic.onDragHoverSignal.removeListener(this.handleMouseOver);
     this.logic.onDragEndSignal.removeListener(this.handleDragEnd);
   }
-
-//   getStateString(props: RLDDProps<Type>, state: RLDDState<Type>): string {
-//     return `draggedId: ${state.draggedId}
-// hoveredId: ${state.hoveredId}
-// items: ${props.items.map(item => item.id).toString()}`;
-//   }
 
   render() {
     // console.log('RLDD.render');
@@ -164,9 +156,6 @@ export default class RLDD<Type> extends Component<RLDDProps<Type>, RLDDState<Typ
       if (typeof item !== 'object') {
         throw `RLDD Error. item must be of type 'object', but it's of type '${typeof item}'.`;
       }
-      // if (typeof item.id !== 'number') {
-      //   throw `RLDD Error. item must have an 'id' property of type 'number'. ${JSON.stringify(item)}`;
-      // }
     }
   }
 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import VerticalExample from './VerticalExample';
-// import HorizontalExample from './HorizontalExample';
+import HorizontalExample from './HorizontalExample';
 
 import './Examples.css';
 
@@ -12,7 +12,7 @@ export default class Examples extends React.PureComponent<{}, {}> {
       <div>
         <h1>react-list-drag-and-drop</h1>
         <div className="examples">
-          {/* <HorizontalExample /> */}
+          <HorizontalExample />
           <VerticalExample />
         </div>
       </div>

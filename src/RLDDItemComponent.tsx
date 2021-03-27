@@ -20,19 +20,13 @@ export default class  RLDDItemComponent<Type> extends React.Component<RLDDItemPr
   readonly state: RLDDItemState = { isDragging: false };
   private isDown: boolean = false;
   private mouseDownTimestamp: number = 0;
-  // private initialOffset: { x: number; y: number };
-
-	// private ref: React.RefObject<HTMLDivElement>;
-
+  
   constructor(props: RLDDItemProps<Type>) {
     super(props);
-    // this.initialOffset = { x: 0, y: 0 };
-
+  
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
-
-    // this.ref = React.createRef();
   }
 
   componentDidMount() {
@@ -50,15 +44,13 @@ export default class  RLDDItemComponent<Type> extends React.Component<RLDDItemPr
     this.removeDocumentListeners();
   }
 
-  render() {
-    // console.log('RLDDItemComponent.render');
+  render() {  
     const dragged = this.props.dragged ? 'dragged' : '';
     const hovered = this.props.hovered ? 'hovered' : '';
     const activity = this.props.activity ? 'activity' : '';
     const cssClasses = 'dl-item ' + activity + ' ' + dragged + ' ' + hovered;
     return (
       <div
-        // ref={this.ref}
         onMouseDown={this.handleMouseDown}
         className={cssClasses}
       >
@@ -95,17 +87,10 @@ export default class  RLDDItemComponent<Type> extends React.Component<RLDDItemPr
     }
 
     const offset = {
-      // x: e.layerX - this.initialOffset.x,
-      // y: e.layerY - this.initialOffset.y
-
-      // x: e.offsetX - this.initialOffset.x,
-      // y: e.offsetY - this.initialOffset.y
 
       x: e.pageX,
       y: e.pageY
 
-      // x: this.getOffset(e).x,
-      // y: this.getOffset(e).y 
     };
 
     if (this.state.isDragging === false && this.isDown) {
